@@ -1,0 +1,4 @@
+echo "🧹 Tidying up your code before it meets the world..."
+npm run format
+git add -A
+echo "✨ Squeaky clean. Off you go! 🚀"
