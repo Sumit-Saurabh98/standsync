@@ -65,5 +65,13 @@ running, Prisma installed + `prisma init`, `DATABASE_URL` set, `docker-compose.y
 (Postgres + Redis) up. Docs hardened with 8 robustness/scale improvements +
 `docs/error_handling.md` added. Social auth (Google + GitHub) added to design:
 `User.passwordHash` nullable, new `AuthAccount` table, one user = many auth
-methods (keep ≥1). Next: define the first Prisma model (`User`) and run the
-initial migration. `AuthAccount` lands in Phase 1.
+methods (keep ≥1).
+
+**Phase 0 essentially complete:** NestJS scaffold; `User` model + initial
+migration; `PrismaModule`/`PrismaService`; `@nestjs/config` + Joi boot validation;
+global `AllExceptionsFilter` (error envelope + x-request-id); Pino structured
+logging; Swagger at `/api/docs`; `/health` DB check; Redis + BullMQ via
+`QueueRootModule`; split API (`main.ts`) / worker (`worker.ts`) entrypoints proven
+with a throwaway `/demo` route + `DemoProcessor` (delete in Phase 4).
+Remaining Phase 0: `.env.example`, optional git init + CI. Next up: Phase 1 (auth).
+`AuthAccount` lands in Phase 1.
