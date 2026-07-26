@@ -17,4 +17,10 @@ export const envValidationSchema = Joi.object({
   WEB_ORIGIN: Joi.string().default('http://localhost:3001'),
   REFRESH_COOKIE_NAME: Joi.string().default('standsync_rt'),
   COOKIE_SECURE: Joi.boolean().default(false),
+  APP_URL: Joi.string().default('http://localhost:3000'),
+  GMAIL_USER: Joi.string().optional(),
+  GMAIL_APP_PASSWORD: Joi.string().optional(),
+  MAIL_FROM: Joi.string().optional(),
+  EMAIL_VERIFICATION_EXPIRES_IN: Joi.string().default('24h'),
+  PASSWORD_RESET_EXPIRES_IN: Joi.string().default('1h'),
 });

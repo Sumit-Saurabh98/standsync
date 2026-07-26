@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  Logger,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -9,14 +10,18 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { randomUUID, createHash } from 'crypto';
+import { randomUUID, randomBytes, createHash } from 'crypto';
+import { MailService } from '../../mail/mail.service';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
     private readonly jwt: JwtService,
+    private readonly mail: MailService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -33,10 +38,49 @@ export class AuthService {
     const rounds = this.config.get<number>('BCRYPT_SALT_ROUNDS', 12);
     const passwordHash = await bcrypt.hash(dto.password, rounds);
 
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: { name: dto.name, email, passwordHash },
       select: { id: true, name: true, email: true, createdAt: true },
     });
+
+    try {
+      await this.sendEmailVerification(user.id, user.email);
+    } catch (err) {
+      this.logger.error('Failed to send verification email', err as Error);
+    }
+
+    return user;
+  }
+
+  private durationToMs(value: string): number {
+    const match = /^(\d+)\s*([smhd])$/.exec(value.trim());
+    if (!match) {
+      throw new Error(`Invalid duration: ${value}`);
+    }
+    const amount = Number(match[1]);
+    const unit = { s: 1000, m: 60_000, h: 3_600_000, d: 86_400_000 }[match[2]]!;
+    return amount * unit;
+  }
+
+  private async sendEmailVerification(userId: string, email: string) {
+    const rawToken = randomBytes(32).toString('hex');
+    const expiresIn = this.config.getOrThrow<string>(
+      'EMAIL_VERIFICATION_EXPIRES_IN',
+    );
+    const expiresAt = new Date(Date.now() + this.durationToMs(expiresIn));
+
+    await this.prisma.emailVerification.create({
+      data: { userId, tokenHash: this.hashToken(rawToken), expiresAt },
+    });
+
+    const link = `${this.config.getOrThrow<string>('WEB_ORIGIN')}/verify-email?token=${rawToken}`;
+    await this.mail.send(
+      email,
+      'Verify your StandSync email',
+      `<p>Welcome to StandSync! Confirm your email:</p>
+       <p><a href="${link}">${link}</a></p>
+       <p>This link expires in ${expiresIn}.</p>`,
+    );
   }
 
   async login(dto: LoginDto) {

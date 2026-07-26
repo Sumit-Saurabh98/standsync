@@ -58,6 +58,7 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   PasswordReset: 'PasswordReset',
   User: 'User',
+  EmailVerification: 'EmailVerification',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -128,6 +129,18 @@ export const UserScalarFieldEnum = {
 
 export type UserScalarFieldEnum =
   (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+
+export const EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt',
+} as const;
+
+export type EmailVerificationScalarFieldEnum =
+  (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

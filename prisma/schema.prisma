@@ -70,8 +70,23 @@ model User {
   authAccounts    AuthAccount[]
   refreshTokens   RefreshToken[]
   passwordResets  PasswordReset[]
+  emailVerifications EmailVerification[]
+
 
   @@map("users")
+}
+
+model EmailVerification {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("email_verifications")
 }
 
 

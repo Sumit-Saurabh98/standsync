@@ -431,6 +431,7 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   PasswordReset: 'PasswordReset',
   User: 'User',
+  EmailVerification: 'EmailVerification',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -452,7 +453,12 @@ export type TypeMap<
     omit: GlobalOmitOptions;
   };
   meta: {
-    modelProps: 'authAccount' | 'refreshToken' | 'passwordReset' | 'user';
+    modelProps:
+      | 'authAccount'
+      | 'refreshToken'
+      | 'passwordReset'
+      | 'user'
+      | 'emailVerification';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -760,6 +766,82 @@ export type TypeMap<
         };
       };
     };
+    EmailVerification: {
+      payload: Prisma.$EmailVerificationPayload<ExtArgs>;
+      fields: Prisma.EmailVerificationFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.EmailVerificationFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.EmailVerificationFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+        };
+        findFirst: {
+          args: Prisma.EmailVerificationFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.EmailVerificationFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+        };
+        findMany: {
+          args: Prisma.EmailVerificationFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
+        };
+        create: {
+          args: Prisma.EmailVerificationCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+        };
+        createMany: {
+          args: Prisma.EmailVerificationCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.EmailVerificationCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
+        };
+        delete: {
+          args: Prisma.EmailVerificationDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+        };
+        update: {
+          args: Prisma.EmailVerificationUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+        };
+        deleteMany: {
+          args: Prisma.EmailVerificationDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.EmailVerificationUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.EmailVerificationUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
+        };
+        upsert: {
+          args: Prisma.EmailVerificationUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+        };
+        aggregate: {
+          args: Prisma.EmailVerificationAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEmailVerification>;
+        };
+        groupBy: {
+          args: Prisma.EmailVerificationGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.EmailVerificationGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.EmailVerificationCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.EmailVerificationCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -851,6 +933,18 @@ export const UserScalarFieldEnum = {
 
 export type UserScalarFieldEnum =
   (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+
+export const EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt',
+} as const;
+
+export type EmailVerificationScalarFieldEnum =
+  (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',
@@ -1110,6 +1204,7 @@ export type GlobalOmitConfig = {
   refreshToken?: Prisma.RefreshTokenOmit;
   passwordReset?: Prisma.PasswordResetOmit;
   user?: Prisma.UserOmit;
+  emailVerification?: Prisma.EmailVerificationOmit;
 };
 
 /* Types for Logging */

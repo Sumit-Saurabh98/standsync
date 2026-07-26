@@ -11,6 +11,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { QueueRootModule } from './queues/queue-root.module';
 import { QUEUES } from './queues/queue.constants';
 import { AuthModule } from './modules/auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { AuthModule } from './modules/auth/auth.module';
     PrismaModule,
     HealthModule,
     AuthModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

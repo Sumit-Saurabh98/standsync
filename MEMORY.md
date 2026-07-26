@@ -89,7 +89,10 @@ rotation + reuse detection (familyId, sha256 tokenHash unique, jti nonce);
 logout (revokes family + clears cookie). Refresh tokens: JWT signed w/ REFRESH
 secret, payload {sub,familyId,jti}, row stored per token, revoked+replacedBy on
 rotate. Prisma 7 driver-adapter setup (client in src/generated/prisma).
-Remaining order: **mailer module → email verification + password reset** →
+Mailer: `MailService` (nodemailer, plain SMTP, console fallback if no SMTP_HOST).
+Provider = **Gmail SMTP for dev AND prod for now** (user's choice; App Password;
+MAIL_FROM must be the gmail addr). Swappable to SES/Postmark via env later.
+Remaining order: **email verification + password reset** →
 social login (Google/GitHub, sets isEmailVerified=true inline) → rate limit +
 CORS. Then monorepo restructure + auth frontend.
 
