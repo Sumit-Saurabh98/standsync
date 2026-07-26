@@ -17,6 +17,21 @@ export { Prisma };
 export * as $Enums from './enums.js';
 export * from './enums.js';
 /**
+ * Model AuthAccount
+ *
+ */
+export type AuthAccount = Prisma.AuthAccountModel;
+/**
+ * Model RefreshToken
+ *
+ */
+export type RefreshToken = Prisma.RefreshTokenModel;
+/**
+ * Model PasswordReset
+ *
+ */
+export type PasswordReset = Prisma.PasswordResetModel;
+/**
  * Model User
  *
  */

@@ -8,6 +8,54 @@ datasource db {
   provider = "postgresql"
 }
 
+enum AuthProvider {
+  GOOGLE
+  GITHUB
+}
+
+model AuthAccount{
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider AuthProvider
+  providerAccountId String
+  email String?
+  createdAt DateTime @default(now())
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("auth_accounts")
+}
+
+model RefreshToken{
+  id String @id @default(cuid())
+  userId String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  familyId   String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  replacedBy String?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+  @@index([familyId])
+  @@map("refresh_tokens")
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("password_resets")
+}
+
 model User {
   id              String    @id @default(cuid())
   email           String    @unique
@@ -19,5 +67,11 @@ model User {
   updatedAt       DateTime  @updatedAt
   deletedAt       DateTime?
 
+  authAccounts    AuthAccount[]
+  refreshTokens   RefreshToken[]
+  passwordResets  PasswordReset[]
+
   @@map("users")
 }
+
+

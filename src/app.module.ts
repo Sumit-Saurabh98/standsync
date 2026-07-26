@@ -10,6 +10,7 @@ import { randomUUID } from 'crypto';
 import { BullModule } from '@nestjs/bullmq';
 import { QueueRootModule } from './queues/queue-root.module';
 import { QUEUES } from './queues/queue.constants';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { QUEUES } from './queues/queue.constants';
     BullModule.registerQueue({ name: QUEUES.DEMO }),
     PrismaModule,
     HealthModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

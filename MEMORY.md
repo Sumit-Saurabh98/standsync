@@ -73,5 +73,23 @@ global `AllExceptionsFilter` (error envelope + x-request-id); Pino structured
 logging; Swagger at `/api/docs`; `/health` DB check; Redis + BullMQ via
 `QueueRootModule`; split API (`main.ts`) / worker (`worker.ts`) entrypoints proven
 with a throwaway `/demo` route + `DemoProcessor` (delete in Phase 4).
-Remaining Phase 0: `.env.example`, optional git init + CI. Next up: Phase 1 (auth).
-`AuthAccount` lands in Phase 1.
+Remaining Phase 0: `.env.example`, optional git init + CI.
+
+**Full-stack decision:** Next.js frontend (`apps/web`) + NestJS (`apps/api`) in a
+**monorepo**, built as **vertical slices** (finish a module's backend → build its
+frontend → integrate → test live → next module). Browser session = httpOnly
+refresh cookie + in-memory access token (ADR-015). See `docs/frontend_architecture.md`.
+Monorepo restructure (`src` → `apps/api` + scaffold `apps/web`) happens when we
+pivot to the auth frontend, not before.
+
+**Now in Phase 1 (auth backend)**, still in current `src/`. Done so far: Prisma
+auth models migrated; register (bcrypt, 409 on dup); login (access JWT, 200);
+JWT strategy + `JwtAuthGuard` + `@CurrentUser` + `GET /auth/me`.
+Remaining order: refresh token + httpOnly cookie → `/auth/refresh` rotation +
+reuse detection → logout → **mailer module → email verification + password reset**
+→ social login (Google/GitHub, sets isEmailVerified=true inline) → rate limit +
+CORS. Then monorepo restructure + auth frontend.
+
+Email verification (ADR-016): password signups get a verify email (can log in
+meanwhile, isEmailVerified=false until verified); social logins auto-verified.
+`EmailVerification` table to be added to Prisma when we build that step.
