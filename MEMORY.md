@@ -82,12 +82,15 @@ refresh cookie + in-memory access token (ADR-015). See `docs/frontend_architectu
 Monorepo restructure (`src` → `apps/api` + scaffold `apps/web`) happens when we
 pivot to the auth frontend, not before.
 
-**Now in Phase 1 (auth backend)**, still in current `src/`. Done so far: Prisma
-auth models migrated; register (bcrypt, 409 on dup); login (access JWT, 200);
-JWT strategy + `JwtAuthGuard` + `@CurrentUser` + `GET /auth/me`.
-Remaining order: refresh token + httpOnly cookie → `/auth/refresh` rotation +
-reuse detection → logout → **mailer module → email verification + password reset**
-→ social login (Google/GitHub, sets isEmailVerified=true inline) → rate limit +
+**Now in Phase 1 (auth backend)**, still in current `src/`. DONE: register
+(bcrypt, 409 dup); login (access JWT + refresh as httpOnly cookie, 200); JWT
+strategy + `JwtAuthGuard` + `@CurrentUser` + `GET /auth/me`; `/auth/refresh`
+rotation + reuse detection (familyId, sha256 tokenHash unique, jti nonce);
+logout (revokes family + clears cookie). Refresh tokens: JWT signed w/ REFRESH
+secret, payload {sub,familyId,jti}, row stored per token, revoked+replacedBy on
+rotate. Prisma 7 driver-adapter setup (client in src/generated/prisma).
+Remaining order: **mailer module → email verification + password reset** →
+social login (Google/GitHub, sets isEmailVerified=true inline) → rate limit +
 CORS. Then monorepo restructure + auth frontend.
 
 Email verification (ADR-016): password signups get a verify email (can log in

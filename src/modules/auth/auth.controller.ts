@@ -7,12 +7,14 @@ import {
   HttpStatus,
   UseGuards,
   Res,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import type { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import {
   CurrentUser,
@@ -33,6 +35,15 @@ export class AuthController {
       sameSite: 'lax',
       path: '/api/v1/auth',
       maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+  }
+
+  private clearRefreshCookie(res: Response) {
+    res.clearCookie(this.config.getOrThrow<string>('REFRESH_COOKIE_NAME'), {
+      httpOnly: true,
+      secure: this.config.get<boolean>('COOKIE_SECURE'),
+      sameSite: 'lax',
+      path: '/api/v1/auth',
     });
   }
 
@@ -57,5 +68,35 @@ export class AuthController {
   @Get('me')
   me(@CurrentUser() user: AuthUser) {
     return user;
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh')
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const cookieName = this.config.getOrThrow<string>('REFRESH_COOKIE_NAME');
+    const cookies = req.cookies as Record<string, string | undefined>;
+    const token = cookies?.[cookieName];
+    if (!token) {
+      throw new UnauthorizedException({
+        code: 'AUTH_TOKEN_INVALID',
+        message: 'Missing session.',
+      });
+    }
+    const { accessToken, refreshToken, expiresIn } =
+      await this.authService.rotateRefreshToken(token);
+    this.setRefreshCookie(res, refreshToken);
+    return { accessToken, expiresIn };
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('logout')
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const cookieName = this.config.getOrThrow<string>('REFRESH_COOKIE_NAME');
+    const cookies = req.cookies as Record<string, string | undefined>;
+    await this.authService.logout(cookies?.[cookieName]);
+    this.clearRefreshCookie(res);
   }
 }

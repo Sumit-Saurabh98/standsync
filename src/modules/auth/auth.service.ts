@@ -84,31 +84,6 @@ export class AuthService {
     return createHash('sha256').update(token).digest('hex');
   }
 
-  private async singleRefreshToken(userId: string, familyId: string) {
-    const token = await this.jwt.signAsync(
-      { sub: userId, familyId },
-      {
-        secret: this.config.getOrThrow<string>('JWT_REFRESH_SECRET'),
-        expiresIn: this.config.getOrThrow<string>(
-          'JWT_REFRESH_EXPIRES_IN',
-        ) as JwtSignOptions['expiresIn'],
-      },
-    );
-
-    const { exp } = this.jwt.decode<{ exp: number }>(token);
-
-    await this.prisma.refreshToken.create({
-      data: {
-        userId,
-        familyId,
-        tokenHash: this.hashToken(token),
-        expiresAt: new Date(exp * 1000),
-      },
-    });
-
-    return token;
-  }
-
   private async issueTokens(userId: string, email: string, familyId?: string) {
     const fam = familyId ?? randomUUID();
     const accessToken = await this.signAccessToken(userId, email);
@@ -118,7 +93,7 @@ export class AuthService {
 
   private async signRefreshToken(userId: string, familyId: string) {
     const token = await this.jwt.signAsync(
-      { sub: userId, familyId },
+      { sub: userId, familyId, jti: randomUUID() },
       {
         secret: this.config.getOrThrow<string>('JWT_REFRESH_SECRET'),
         expiresIn: this.config.getOrThrow<string>(
@@ -140,5 +115,101 @@ export class AuthService {
     });
 
     return { token, id: row.id };
+  }
+
+  private async verifyRefreshToken(token: string) {
+    try {
+      return await this.jwt.verifyAsync<{ sub: string; familyId: string }>(
+        token,
+        { secret: this.config.getOrThrow<string>('JWT_REFRESH_SECRET') },
+      );
+    } catch {
+      throw new UnauthorizedException({
+        code: 'AUTH_TOKEN_INVALID',
+        message: 'invalid session',
+      });
+    }
+  }
+
+  async rotateRefreshToken(rawToken: string) {
+    await this.verifyRefreshToken(rawToken); // signature + expiry
+    const tokenHash = this.hashToken(rawToken);
+
+    const existing = await this.prisma.refreshToken.findUnique({
+      where: { tokenHash },
+    });
+
+    if (!existing) {
+      throw new UnauthorizedException({
+        code: 'AUTH_TOKEN_INVALID',
+        message: 'Invalid session.',
+      });
+    }
+
+    // Reuse of an already-rotated token → revoke the whole family.
+
+    if (existing.revokedAt) {
+      await this.prisma.refreshToken.updateMany({
+        where: { familyId: existing.familyId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      });
+
+      throw new UnauthorizedException({
+        code: 'AUTH_TOKEN_REUSE_DETECTED',
+        message: 'Session revoked. Please log in again.',
+      });
+    }
+
+    if (existing.expiresAt < new Date()) {
+      throw new UnauthorizedException({
+        code: 'AUTH_TOKEN_INVALID',
+        message: 'Session expired.',
+      });
+    }
+
+    const user = await this.prisma.user.findFirst({
+      where: { id: existing.userId, deletedAt: null },
+      select: { id: true, email: true },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException({
+        code: 'AUTH_TOKEN_INVALID',
+        message: 'Invalid session.',
+      });
+    }
+
+    // Rotate: issue new refresh in the same family, revoke + link the old one.
+
+    const { token: newRefresh, id: newId } = await this.signRefreshToken(
+      user.id,
+      existing.familyId,
+    );
+
+    await this.prisma.refreshToken.update({
+      where: { id: existing.id },
+      data: { revokedAt: new Date(), replacedBy: newId },
+    });
+
+    const accessToken = await this.signAccessToken(user.id, user.email);
+
+    return {
+      accessToken,
+      refreshToken: newRefresh,
+      expiresIn: this.config.get<string>('JWT_ACCESS_EXPIRES_IN'),
+    };
+  }
+
+  async logout(rawToken?: string) {
+    if (!rawToken) return;
+    const existing = await this.prisma.refreshToken.findUnique({
+      where: { tokenHash: this.hashToken(rawToken) },
+    });
+    if (existing) {
+      await this.prisma.refreshToken.updateMany({
+        where: { familyId: existing.familyId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      });
+    }
   }
 }
