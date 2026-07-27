@@ -4,6 +4,7 @@ import {
   Logger,
   UnauthorizedException,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
@@ -12,8 +13,10 @@ import { RegisterDto } from './dto/register.dto';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { randomUUID, randomBytes, createHash } from 'crypto';
-import { MailService } from '../../mail/mail.service';
 import { OAuthProfile } from './oauth-profile.type';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
+import { QUEUES } from '../../queues/queue.constants';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +26,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
     private readonly jwt: JwtService,
-    private readonly mail: MailService,
+    @InjectQueue(QUEUES.MAIL) private readonly mailQueue: Queue,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -76,7 +79,7 @@ export class AuthService {
     });
 
     const link = `${this.config.getOrThrow<string>('WEB_ORIGIN')}/verify-email?token=${rawToken}`;
-    await this.mail.send(
+    await this.enqueueMail(
       email,
       'Verify your StandSync email',
       `<p>Welcome to StandSync! Confirm your email:</p>
@@ -87,6 +90,12 @@ export class AuthService {
 
   async login(dto: LoginDto) {
     const user = await this.validateUser(dto.email, dto.password);
+    if (!user.isEmailVerified) {
+      throw new ForbiddenException({
+        code: 'EMAIL_NOT_VERIFIED',
+        message: 'Please verify your email before signing in.',
+      });
+    }
     const tokens = await this.issueTokens(user.id, user.email);
     return {
       ...tokens,
@@ -126,7 +135,7 @@ export class AuthService {
       throw new ConflictException({
         code: 'OAUTH_EMAIL_EXISTS_OTHER_PROVIDER',
         message:
-          'An account with this email already exists. Sign in with your existing method, then link this provider in settings.',
+          'An account with this email already exists. Sign in with your existing method.',
       });
     }
 
@@ -388,7 +397,7 @@ export class AuthService {
       const link = `${this.config.getOrThrow<string>('WEB_ORIGIN')}/reset-password?token=${rawToken}`;
 
       try {
-        await this.mail.send(
+        await this.enqueueMail(
           user.email,
           'Reset your StandSync password',
           `<p>Reset your password:</p>
@@ -433,5 +442,9 @@ export class AuthService {
     ]);
 
     return { reset: true };
+  }
+
+  private enqueueMail(to: string, subject: string, html: string) {
+    return this.mailQueue.add('send', { to, subject, html });
   }
 }

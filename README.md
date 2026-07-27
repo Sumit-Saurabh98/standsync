@@ -71,22 +71,29 @@ API (HTTP)  ──▶  Services  ──▶  PostgreSQL
 ### Setup
 
 ```bash
-# 1. Install dependencies
-npm install
+# 1. Install dependencies (each app manages its own — not a single workspace install)
+cd apps/api && npm install && cd ../web && npm install && cd ../..
 
 # 2. Configure environment
-cp .env.example .env    # then edit values
+cp apps/api/.env.example apps/api/.env    # then edit values
 
 # 3. Start infrastructure (PostgreSQL + Redis)
 docker compose up -d postgres redis
 
 # 4. Apply database schema
-npx prisma migrate dev
+cd apps/api && npx prisma migrate dev && cd ../..
 
-# 5. Run the API and the worker (separate processes)
-npm run start:dev       # API
-npm run worker:dev      # background worker
+# 5. Run all THREE processes (each in its own terminal)
+npm run api          # API        → http://localhost:3000
+npm run api:worker   # background worker
+npm run web           # web (Next.js) → http://localhost:3001
 ```
+
+> ⚠️ **The worker is not optional.** Since transactional email is sent
+> asynchronously via a BullMQ queue (ADR-017), registration/verification/password-
+> reset emails are only *enqueued* by the API — nothing sends them until
+> `npm run api:worker` is also running. If signup or password-reset emails "aren't
+> arriving," check the worker is up before debugging anything else.
 
 API docs (Swagger) will be available at `http://localhost:3000/api/docs`.
 
@@ -104,7 +111,9 @@ Configuration reference: [docs/environment_variables.md](docs/environment_variab
 | [architecture.md](docs/architecture.md) | System design, modules, queues, deployment |
 | [database_schema.md](docs/database_schema.md) | Data model, tables, constraints |
 | [api_specification.md](docs/api_specification.md) | REST endpoints and contracts |
+| [error_handling.md](docs/error_handling.md) | Error envelope, codes, retries |
 | [folder_structure.md](docs/folder_structure.md) | How the code is organized |
+| [frontend_architecture.md](docs/frontend_architecture.md) | Next.js app structure, auth/session flow |
 | [user_flow.md](docs/user_flow.md) | End-to-end user and system flows |
 | [environment_variables.md](docs/environment_variables.md) | Configuration reference |
 | [coding_guidelines.md](docs/coding_guidelines.md) | Conventions and standards |
@@ -115,12 +124,17 @@ Configuration reference: [docs/environment_variables.md](docs/environment_variab
 
 ```
 standsync/
-├── docs/          # Documentation (start here)
-├── prisma/        # Schema, migrations, seed
-├── src/           # NestJS application (modules, workers)
-├── test/          # e2e tests
-└── docker/        # Dockerfiles, nginx, compose
+├── docs/            # Documentation (start here)
+├── apps/
+│   ├── api/         # NestJS backend — src/, prisma/, test/ (own package.json)
+│   └── web/         # Next.js frontend — src/ (own package.json)
+├── docker-compose.yml
+└── MEMORY.md        # Working agreement + session handoff notes
 ```
+
+Each app is self-contained (own `node_modules`) — not an npm workspace. Root
+`package.json` just proxies commands: `npm run api`, `npm run api:worker`,
+`npm run web`.
 
 See [docs/folder_structure.md](docs/folder_structure.md).
 

@@ -9,6 +9,7 @@ import {
   Res,
   Req,
   UnauthorizedException,
+  HttpException,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
@@ -26,7 +27,9 @@ import { ResendVerificationDto } from './dto/resend-verification.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { OAuthProfile } from './oauth-profile.type';
+import { Throttle, seconds } from '@nestjs/throttler';
 
+@Throttle({ default: { limit: 10, ttl: seconds(60) } })
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -157,12 +160,31 @@ export class AuthController {
   }
 
   private async handleOAuthRedirect(req: Request, res: Response) {
-    const profile = req.user as OAuthProfile;
-    const { accessToken, refreshToken } =
-      await this.authService.handleOAuthLogin(profile);
-    this.setRefreshCookie(res, refreshToken);
-    const redirect = this.config.getOrThrow<string>('OAUTH_SUCCESS_REDIRECT');
-    // Access token in the URL fragment (#) so it isn't sent to the server/logged.
-    res.redirect(`${redirect}/oauth/callback#accessToken=${accessToken}`);
+    const webOrigin = this.config.getOrThrow<string>('WEB_ORIGIN');
+    try {
+      const profile = req.user as OAuthProfile;
+      const { accessToken, refreshToken } =
+        await this.authService.handleOAuthLogin(profile);
+      this.setRefreshCookie(res, refreshToken);
+      const redirect = this.config.getOrThrow<string>('OAUTH_SUCCESS_REDIRECT');
+      res.redirect(`${redirect}/oauth/callback#accessToken=${accessToken}`);
+    } catch (err) {
+      const code =
+        err instanceof HttpException
+          ? (() => {
+              const response = err.getResponse();
+              if (
+                typeof response === 'object' &&
+                response !== null &&
+                'code' in response &&
+                typeof response.code === 'string'
+              ) {
+                return response.code;
+              }
+              return 'OAUTH_FAILED';
+            })()
+          : 'OAUTH_FAILED';
+      res.redirect(`${webOrigin}/login?error=${code}`);
+    }
   }
 }

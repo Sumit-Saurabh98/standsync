@@ -12,12 +12,35 @@ import { QueueRootModule } from './queues/queue-root.module';
 import { QUEUES } from './queues/queue.constants';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { ThrottlerModule, ThrottlerGuard, seconds } from '@nestjs/throttler';
+import { ThrottlerStorageRedisService } from '@nest-lab/throttler-storage-redis';
+import { APP_GUARD } from '@nestjs/core';
+import Redis from 'ioredis';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: envValidationSchema,
+    }),
+    ThrottlerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        throttlers: [
+          {
+            ttl: seconds(config.get<number>('THROTTLE_TTL', 60)),
+            limit: config.get<number>('THROTTLE_LIMIT', 100),
+          },
+        ],
+        storage: new ThrottlerStorageRedisService(
+          new Redis({
+            host: config.getOrThrow<string>('REDIS_HOST'),
+            port: config.getOrThrow<number>('REDIS_PORT'),
+            password: config.get<string>('REDIS_PASSWORD') || undefined,
+          }),
+        ),
+      }),
     }),
     LoggerModule.forRoot({
       pinoHttp: {
@@ -43,6 +66,12 @@ import { MailModule } from './mail/mail.module';
     MailModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

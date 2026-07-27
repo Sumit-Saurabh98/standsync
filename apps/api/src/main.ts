@@ -13,6 +13,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useLogger(app.get(Logger));
   const config = app.get(ConfigService);
+  app.enableCors({
+    origin: config.get<string>('WEB_ORIGIN'),
+    credentials: true,
+  });
 
   // All routes are prefixed with /api/v1, except /health (used by probes).
   app.setGlobalPrefix('api/v1', { exclude: ['health'] });

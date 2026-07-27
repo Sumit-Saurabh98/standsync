@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #a86e72;
+  --color-primary-hover: #925a5e;
+  --color-ink: #1b1b1f;
+  --color-muted: #9a9aa1;
+  --color-panel: #f4f3f5;
+  --color-page: #e7dedf;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}

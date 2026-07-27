@@ -5,6 +5,8 @@ import { envValidationSchema } from './config/env.validation';
 import { QueueRootModule } from './queues/queue-root.module';
 import { QUEUES } from './queues/queue.constants';
 import { DemoProcessor } from './worker/demo.processor';
+import { MailModule } from './mail/mail.module';
+import { MailProcessor } from './mail/mail.processor';
 
 @Module({
   imports: [
@@ -13,8 +15,10 @@ import { DemoProcessor } from './worker/demo.processor';
       validationSchema: envValidationSchema,
     }),
     QueueRootModule,
+    MailModule,
     BullModule.registerQueue({ name: QUEUES.DEMO }),
+    BullModule.registerQueue({ name: QUEUES.MAIL }),
   ],
-  providers: [DemoProcessor],
+  providers: [DemoProcessor, MailProcessor],
 })
 export class WorkerModule {}

@@ -117,9 +117,87 @@ protection** not yet implemented (passport `state:true` needs session or signed
 state). Also NOT built yet: account linking/unlinking endpoints
 (`POST /auth/:provider/link`, `DELETE /auth/accounts/:id`, `GET /auth/accounts`).
 
-Remaining Phase 1 backend: **rate limiting on /auth/\*** (Redis-backed throttler)
-+ **CORS for web origin** → then account linking + OAuth state (with frontend).
-Then monorepo restructure + auth frontend.
+Rate limiting DONE + tested: global `ThrottlerModule` (Redis storage via
+`@nest-lab/throttler-storage-redis` + ioredis), `APP_GUARD: ThrottlerGuard`,
+default 100/60s, `@Throttle({default:{limit:10,ttl:seconds(60)}})` on
+AuthController → verified 429 after 10 rapid /auth/login hits.
+
+**Pure-backend auth is COMPLETE.** Deferred to frontend-integration phase: CORS
+for web origin, account linking/unlinking endpoints, OAuth `state` CSRF.
+Monorepo restructure DONE + verified: backend moved to `apps/api/` (src, prisma,
+test, node_modules, all config, .env), root `package.json` is workspace root
+(`workspaces:["apps/*"]`, scripts: `npm run api` / `api:worker` / `web`). API
+boots from apps/api, DB connected. docker-compose.yml + docs + MEMORY.md stay at
+root. Run API: `cd apps/api && npm run start:dev` (or `npm run api` from root).
+apps/web SCAFFOLDED + running: Next.js **16** + React **19** + Tailwind 4 + TS,
+App Router, `src/` dir, import alias `@/*`. Dev port **3001** (`next dev -p 3001`;
+API owns 3000). Apps are **self-contained** (own node_modules, NOT npm workspaces)
+— root scripts use `npm --prefix apps/<x> run <script>`.
+⚠️ Next 16 has breaking changes from older Next — its AGENTS.md says READ
+`apps/web/node_modules/next/dist/docs/` before writing frontend code; don't assume
+old Next conventions.
+Auth frontend DONE + tested live in browser (login flow end-to-end, session
+persists on reload via silent refresh cross-origin 3001↔3000, logout). Built in
+apps/web: `lib/api-client.ts` (in-memory access token, silent refresh-on-401,
+credentials:'include'), `lib/auth-context.tsx` (AuthProvider: bootstrap via
+refresh→/me, login/register/logout), `lib/types.ts` (ApiError). UI: `components/
+ui/{Button,TextField,icons}`, `components/auth/{AuthShell,SocialButtons}`. Pages
+(App Router): `(auth)/login`, `(auth)/signup`, `oauth/callback` (reads #accessToken
+fragment→setToken→/me→dashboard), `dashboard` (client guard), root redirects to
+/dashboard. Design: rose accent (#a86e72) split-screen matching user's mockup,
+Google+GitHub only (NO Facebook/Apple). CORS added to apps/api/src/main.ts
+(origin WEB_ORIGIN, credentials true). NEXT_PUBLIC_API_URL in apps/web/.env.local.
+⚠️ Next 16 lint: `react-hooks/set-state-in-effect` is an ERROR — no sync setState
+in useEffect body.
+
+Auth UI COMPLETE: pages `(auth)/{login,signup,forgot-password,reset-password,
+verify-email}` + `oauth/callback` + `dashboard`. All use `auth.png` (public/, right
+panel via next/image fill) + `logo.svg` (brand tile via plain <img> — next/image
+blocks SVG; also the favicon via metadata.icons in layout.tsx; deleted default
+app/favicon.ico). reset-password + verify-email read `?token=` via `useSearchParams`
+wrapped in `<Suspense>` (required in App Router). api-client has all auth methods
+(register, login, me, logout, forgot/resetPassword, verify/resendVerification).
+Verified live in browser: login end-to-end, session persists on reload, all auth
+pages render with the illustration.
+
+=== 3 auth improvements — ALL DONE + verified ===
+1. OAuth error UX: `handleOAuthRedirect` try/catch → redirects to
+   `WEB_ORIGIN/login?error=<CODE>`; login page maps code→friendly msg (ERROR_MESSAGES,
+   read via useSearchParams in <Suspense>). ✅
+2. Hard-gate login: `AuthService.login` throws `403 EMAIL_NOT_VERIFIED` if
+   !isEmailVerified. Register no longer auto-logins; frontend `register()` just
+   creates account → signup shows "Check your email"; login shows "Resend
+   verification" on EMAIL_NOT_VERIFIED. ✅
+3. Async email: BullMQ `mail` queue (QUEUES.MAIL). AuthModule registers it
+   (producer, defaultJobOptions attempts:5 exp backoff). AuthService injects
+   `@InjectQueue(MAIL)` + `enqueueMail(to,subject,html)` → `mailQueue.add('send',...)`
+   (no longer imports MailService). `MailProcessor` (src/mail/mail.processor.ts,
+   @Processor(MAIL)) sends via MailService in the WORKER. WorkerModule imports
+   MailModule + registers MAIL queue + provides MailProcessor. Verified: register
+   201 in 0.5s (no SMTP block), worker logs "Mail job → ...". ✅
+Docs updated (ADR-016 HARD-gate, ADR-017 async email, ADR-013 OAuth redirect,
+error_handling EMAIL_NOT_VERIFIED, api_spec, architecture mail queue, user_flow).
+
+RESOLVED (2026-07-28): "email not working" report was two separate non-bugs:
+(a) users table had been wiped (empty DB — cause unknown/not reproduced, not a
+code issue, migrations were intact) so forgot-password correctly no-op'd on
+unknown emails; (b) user was testing without the worker process running, so mail
+jobs sat queued (BullMQ `mail` queue) with nothing consuming them — classic
+ADR-017 async-email dev trap. Verified fix: with worker running, register→job→
+worker log→Gmail SMTP verify all green. Added an explicit "worker is not
+optional" warning to README Setup + docs/architecture.md Background Processing,
+and refreshed README's stale pre-monorepo paths/doc table while at it.
+Lesson: when debugging "X isn't happening" for anything mail-related, FIRST check
+the worker process is running before anything else.
+
+=== NEXT — Phase 2 ===
+Begin **Phase 2 — Teams & RBAC, BACKEND-FIRST** (see docs/roadmap.md Phase 2 +
+docs/database_schema.md Team/TeamMember/TeamConfig/Invitation + docs/api_specification.md
+Teams). Backend code = USER TYPES (spoon-feed, teach NestJS). Frontend code = I write.
+Run API: `cd apps/api && npm run start:dev` (:3000). Run web: `cd apps/web && npm run dev` (:3001).
+Still deferred (do with their UI later): account linking/unlinking endpoints + UI,
+OAuth `state` CSRF. Test users: sumitsaurabh112@gmail.com (Google, no pw),
+sumitsaurabh112+standsync1@gmail.com (pw N3wPass!word).
 
 Email verification (ADR-016): password signups get a verify email (can log in
 meanwhile, isEmailVerified=false until verified); social logins auto-verified.
