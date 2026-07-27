@@ -15,11 +15,17 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import {
   CurrentUser,
   type AuthUser,
 } from '../../common/decorators/current-user.decorator';
+import { VerifyEmailDto } from './dto/verify-email.dto';
+import { ResendVerificationDto } from './dto/resend-verification.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { OAuthProfile } from './oauth-profile.type';
 
 @Controller('auth')
 export class AuthController {
@@ -98,5 +104,65 @@ export class AuthController {
     const cookies = req.cookies as Record<string, string | undefined>;
     await this.authService.logout(cookies?.[cookieName]);
     this.clearRefreshCookie(res);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('verify-email')
+  verifyEmail(@Body() dto: VerifyEmailDto) {
+    return this.authService.verifyEmail(dto.token);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('verify-email/resend')
+  async resendVerification(@Body() dto: ResendVerificationDto) {
+    await this.authService.resendVerification(dto.email);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('forgot-password')
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    await this.authService.forgotPassword(dto.email);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('reset-password')
+  resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto.token, dto.password);
+  }
+
+  // --- Social login (OAuth) ---
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  googleAuth() {
+    // AuthGuard redirects to Google's consent screen.
+  }
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleCallback(@Req() req: Request, @Res() res: Response) {
+    await this.handleOAuthRedirect(req, res);
+  }
+
+  @Get('github')
+  @UseGuards(AuthGuard('github'))
+  githubAuth() {
+    // AuthGuard redirects to GitHub's consent screen.
+  }
+
+  @Get('github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubCallback(@Req() req: Request, @Res() res: Response) {
+    await this.handleOAuthRedirect(req, res);
+  }
+
+  private async handleOAuthRedirect(req: Request, res: Response) {
+    const profile = req.user as OAuthProfile;
+    const { accessToken, refreshToken } =
+      await this.authService.handleOAuthLogin(profile);
+    this.setRefreshCookie(res, refreshToken);
+    const redirect = this.config.getOrThrow<string>('OAUTH_SUCCESS_REDIRECT');
+    // Access token in the URL fragment (#) so it isn't sent to the server/logged.
+    res.redirect(`${redirect}/oauth/callback#accessToken=${accessToken}`);
   }
 }

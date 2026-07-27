@@ -89,12 +89,37 @@ rotation + reuse detection (familyId, sha256 tokenHash unique, jti nonce);
 logout (revokes family + clears cookie). Refresh tokens: JWT signed w/ REFRESH
 secret, payload {sub,familyId,jti}, row stored per token, revoked+replacedBy on
 rotate. Prisma 7 driver-adapter setup (client in src/generated/prisma).
-Mailer: `MailService` (nodemailer, plain SMTP, console fallback if no SMTP_HOST).
-Provider = **Gmail SMTP for dev AND prod for now** (user's choice; App Password;
-MAIL_FROM must be the gmail addr). Swappable to SES/Postmark via env later.
-Remaining order: **email verification + password reset** →
-social login (Google/GitHub, sets isEmailVerified=true inline) → rate limit +
-CORS. Then monorepo restructure + auth frontend.
+Mailer DONE: `MailService` (nodemailer `service:'gmail'`, console fallback if no
+creds). Env names: **GMAIL_USER / GMAIL_APP_PASSWORD** (not SMTP_*), MAIL_FROM
+optional (defaults to GMAIL_USER). Gmail SMTP for dev AND prod for now (user's
+choice); swappable to SES/Postmark via env. Duration strings ('24h','1h') parsed
+by a local `durationToMs` helper in AuthService (not `ms` lib).
+Email verification DONE + tested live via real Gmail: register sends email,
+`POST /auth/verify-email` (single-use, atomic $transaction sets isEmailVerified),
+`POST /auth/verify-email/resend` (204, enumeration-safe). Test user:
+sumitsaurabh112+standsync1@gmail.com (Gmail +alias trick for fresh signups).
+Password reset DONE + tested live: `POST /auth/forgot-password` (204,
+enumeration-safe, only for password accounts), `POST /auth/reset-password`
+(single-use token, atomic $transaction sets new hash + marks used + **revokes ALL
+refresh tokens**). Verified: old session dies, old pw fails, new pw works, token
+reuse → 400 PASSWORD_RESET_INVALID.
+Social login (Google + GitHub) DONE + tested live via browser: Passport
+strategies (`google`/`github`), `GET /auth/{google,github}` + `/callback`,
+`handleOAuthLogin` (existing AuthAccount→login; email-exists-other-provider→409
+OAUTH_EMAIL_EXISTS_OTHER_PROVIDER, NO silent merge; new→create verified user +
+AuthAccount). Callback sets refresh cookie + redirects to
+`OAUTH_SUCCESS_REDIRECT/oauth/callback#accessToken=...`. Verified: Google creates
+verified/no-password/avatar user, re-login idempotent, GitHub same-email → 409.
+OAuthProfile type in `src/modules/auth/oauth-profile.type.ts`.
+
+KNOWN GAP (deferred, do during frontend integration): **OAuth `state` CSRF
+protection** not yet implemented (passport `state:true` needs session or signed
+state). Also NOT built yet: account linking/unlinking endpoints
+(`POST /auth/:provider/link`, `DELETE /auth/accounts/:id`, `GET /auth/accounts`).
+
+Remaining Phase 1 backend: **rate limiting on /auth/\*** (Redis-backed throttler)
++ **CORS for web origin** → then account linking + OAuth state (with frontend).
+Then monorepo restructure + auth frontend.
 
 Email verification (ADR-016): password signups get a verify email (can log in
 meanwhile, isEmailVerified=false until verified); social logins auto-verified.

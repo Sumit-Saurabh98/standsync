@@ -23,4 +23,11 @@ export const envValidationSchema = Joi.object({
   MAIL_FROM: Joi.string().optional(),
   EMAIL_VERIFICATION_EXPIRES_IN: Joi.string().default('24h'),
   PASSWORD_RESET_EXPIRES_IN: Joi.string().default('1h'),
+  GOOGLE_CLIENT_ID: Joi.string().optional(),
+  GOOGLE_CLIENT_SECRET: Joi.string().optional(),
+  GOOGLE_CALLBACK_URL: Joi.string().optional(),
+  GITHUB_CLIENT_ID: Joi.string().optional(),
+  GITHUB_CLIENT_SECRET: Joi.string().optional(),
+  GITHUB_CALLBACK_URL: Joi.string().optional(),
+  OAUTH_SUCCESS_REDIRECT: Joi.string().default('http://localhost:3001'),
 });

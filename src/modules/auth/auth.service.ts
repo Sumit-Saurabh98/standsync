@@ -3,6 +3,7 @@ import {
   Injectable,
   Logger,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
@@ -12,6 +13,7 @@ import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { randomUUID, randomBytes, createHash } from 'crypto';
 import { MailService } from '../../mail/mail.service';
+import { OAuthProfile } from './oauth-profile.type';
 
 @Injectable()
 export class AuthService {
@@ -90,6 +92,62 @@ export class AuthService {
       ...tokens,
       expiresIn: this.config.get<string>('JWT_ACCESS_EXPIRES_IN'),
     };
+  }
+
+  async handleOAuthLogin(profile: OAuthProfile) {
+    if (!profile.email) {
+      throw new BadRequestException({
+        code: 'OAUTH_EMAIL_MISSING',
+        message:
+          'Your provider did not share an email. Make your email public and try again.',
+      });
+    }
+
+    // 1. Already linked → log that user in.
+    const account = await this.prisma.authAccount.findUnique({
+      where: {
+        provider_providerAccountId: {
+          provider: profile.provider,
+          providerAccountId: profile.providerAccountId,
+        },
+      },
+      include: { user: true },
+    });
+
+    if (account) {
+      return this.issueTokens(account.user.id, account.user.email);
+    }
+
+    // 2. Email already belongs to a different method → no silent linking.
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: profile.email },
+    });
+    if (existingUser) {
+      throw new ConflictException({
+        code: 'OAUTH_EMAIL_EXISTS_OTHER_PROVIDER',
+        message:
+          'An account with this email already exists. Sign in with your existing method, then link this provider in settings.',
+      });
+    }
+
+    // 3. New user → create verified user + linked provider account.
+    const user = await this.prisma.user.create({
+      data: {
+        email: profile.email,
+        name: profile.name,
+        avatarUrl: profile.avatarUrl,
+        isEmailVerified: true,
+        authAccounts: {
+          create: {
+            provider: profile.provider,
+            providerAccountId: profile.providerAccountId,
+            email: profile.email,
+          },
+        },
+      },
+    });
+
+    return this.issueTokens(user.id, user.email);
   }
 
   private async validateUser(email: string, password: string) {
@@ -255,5 +313,125 @@ export class AuthService {
         data: { revokedAt: new Date() },
       });
     }
+  }
+
+  async verifyEmail(rawToken: string) {
+    const record = await this.prisma.emailVerification.findUnique({
+      where: { tokenHash: this.hashToken(rawToken) },
+    });
+
+    if (!record || record.usedAt || record.expiresAt < new Date()) {
+      throw new BadRequestException({
+        code: 'EMAIL_VERIFICATION_INVALID',
+        message: 'Verification link is invalid or expired.',
+      });
+    }
+
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: record.userId },
+        data: { isEmailVerified: true },
+      }),
+
+      this.prisma.emailVerification.update({
+        where: { id: record.id },
+        data: { usedAt: new Date() },
+      }),
+    ]);
+
+    return { verified: true };
+  }
+
+  async resendVerification(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    // Always respond the same way — don't reveal whether the email exists
+    // or is already verified.
+
+    if (user && !user.isEmailVerified) {
+      try {
+        await this.sendEmailVerification(user.id, user.email);
+      } catch (error) {
+        this.logger.error(
+          'Failed to resend verification email',
+          error as Error,
+        );
+      }
+    }
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    // Only password accounts can reset; stay enumeration-safe otherwise.
+
+    if (user && user.passwordHash) {
+      const rawToken = randomBytes(32).toString('hex');
+      const expiresIn = this.config.getOrThrow<string>(
+        'PASSWORD_RESET_EXPIRES_IN',
+      );
+
+      const expiresAt = new Date(Date.now() + this.durationToMs(expiresIn));
+
+      await this.prisma.passwordReset.create({
+        data: {
+          userId: user.id,
+          tokenHash: this.hashToken(rawToken),
+          expiresAt,
+        },
+      });
+
+      const link = `${this.config.getOrThrow<string>('WEB_ORIGIN')}/reset-password?token=${rawToken}`;
+
+      try {
+        await this.mail.send(
+          user.email,
+          'Reset your StandSync password',
+          `<p>Reset your password:</p>
+           <p><a href="${link}">${link}</a></p>
+           <p>This link expires in ${expiresIn}. If you didn't request this, ignore it.</p>`,
+        );
+      } catch (err) {
+        this.logger.error('Failed to send password reset email', err as Error);
+      }
+    }
+    // Always the same response regardless of outcome.
+  }
+
+  async resetPassword(rawToken: string, newPassword: string) {
+    const record = await this.prisma.passwordReset.findFirst({
+      where: { tokenHash: this.hashToken(rawToken) },
+    });
+    if (!record || record.usedAt || record.expiresAt < new Date()) {
+      throw new BadRequestException({
+        code: 'PASSWORD_RESET_INVALID',
+        message: 'Reset link is invalid or expired.',
+      });
+    }
+
+    const rounds = this.config.get<number>('BCRYPT_SALT_ROUNDS', 12);
+    const passwordHash = await bcrypt.hash(newPassword, rounds);
+
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: record.userId },
+        data: { passwordHash },
+      }),
+      this.prisma.passwordReset.update({
+        where: { id: record.id },
+        data: { usedAt: new Date() },
+      }),
+      // Security: revoke all sessions so a leaked old session can't survive a reset.
+      this.prisma.refreshToken.updateMany({
+        where: { userId: record.userId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      }),
+    ]);
+
+    return { reset: true };
   }
 }
