@@ -59,6 +59,10 @@ export const ModelName = {
   PasswordReset: 'PasswordReset',
   User: 'User',
   EmailVerification: 'EmailVerification',
+  Team: 'Team',
+  TeamMember: 'TeamMember',
+  TeamConfig: 'TeamConfig',
+  Invitation: 'Invitation',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -141,6 +145,59 @@ export const EmailVerificationScalarFieldEnum = {
 
 export type EmailVerificationScalarFieldEnum =
   (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum];
+
+export const TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+} as const;
+
+export type TeamScalarFieldEnum =
+  (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum];
+
+export const TeamMemberScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt',
+} as const;
+
+export type TeamMemberScalarFieldEnum =
+  (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum];
+
+export const TeamConfigScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  timezone: 'timezone',
+  workingDays: 'workingDays',
+  standupDeadline: 'standupDeadline',
+  reminderTime: 'reminderTime',
+  webhookUrl: 'webhookUrl',
+  webhookPlatform: 'webhookPlatform',
+  isActive: 'isActive',
+} as const;
+
+export type TeamConfigScalarFieldEnum =
+  (typeof TeamConfigScalarFieldEnum)[keyof typeof TeamConfigScalarFieldEnum];
+
+export const InvitationScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  status: 'status',
+  invitedBy: 'invitedBy',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+} as const;
+
+export type InvitationScalarFieldEnum =
+  (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

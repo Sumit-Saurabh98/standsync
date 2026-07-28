@@ -187,6 +187,85 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>;
 };
 
+export type EnumRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.Role | Prisma.EnumRoleFieldRefInput<$PrismaModel>;
+  in?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
+};
+
+export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Role | Prisma.EnumRoleFieldRefInput<$PrismaModel>;
+  in?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumRoleFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumRoleFilter<$PrismaModel>;
+};
+
+export type EnumWebhookPlatformFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.WebhookPlatform
+    | Prisma.EnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumWebhookPlatformFilter<$PrismaModel>
+    | $Enums.WebhookPlatform;
+};
+
+export type EnumWebhookPlatformWithAggregatesFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.WebhookPlatform
+    | Prisma.EnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumWebhookPlatformWithAggregatesFilter<$PrismaModel>
+    | $Enums.WebhookPlatform;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumWebhookPlatformFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumWebhookPlatformFilter<$PrismaModel>;
+};
+
+export type EnumInviteStatusFilter<$PrismaModel = never> = {
+  equals?:
+    $Enums.InviteStatus | Prisma.EnumInviteStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumInviteStatusFilter<$PrismaModel> | $Enums.InviteStatus;
+};
+
+export type EnumInviteStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?:
+    $Enums.InviteStatus | Prisma.EnumInviteStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumInviteStatusWithAggregatesFilter<$PrismaModel>
+    | $Enums.InviteStatus;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumInviteStatusFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumInviteStatusFilter<$PrismaModel>;
+};
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>;
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
@@ -373,4 +452,85 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>;
   _min?: Prisma.NestedBoolFilter<$PrismaModel>;
   _max?: Prisma.NestedBoolFilter<$PrismaModel>;
+};
+
+export type NestedEnumRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.Role | Prisma.EnumRoleFieldRefInput<$PrismaModel>;
+  in?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
+};
+
+export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Role | Prisma.EnumRoleFieldRefInput<$PrismaModel>;
+  in?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumRoleFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumRoleFilter<$PrismaModel>;
+};
+
+export type NestedEnumWebhookPlatformFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.WebhookPlatform
+    | Prisma.EnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumWebhookPlatformFilter<$PrismaModel>
+    | $Enums.WebhookPlatform;
+};
+
+export type NestedEnumWebhookPlatformWithAggregatesFilter<
+  $PrismaModel = never,
+> = {
+  equals?:
+    | $Enums.WebhookPlatform
+    | Prisma.EnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.WebhookPlatform[]
+    | Prisma.ListEnumWebhookPlatformFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumWebhookPlatformWithAggregatesFilter<$PrismaModel>
+    | $Enums.WebhookPlatform;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumWebhookPlatformFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumWebhookPlatformFilter<$PrismaModel>;
+};
+
+export type NestedEnumInviteStatusFilter<$PrismaModel = never> = {
+  equals?:
+    $Enums.InviteStatus | Prisma.EnumInviteStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumInviteStatusFilter<$PrismaModel> | $Enums.InviteStatus;
+};
+
+export type NestedEnumInviteStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?:
+    $Enums.InviteStatus | Prisma.EnumInviteStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.InviteStatus[]
+    | Prisma.ListEnumInviteStatusFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumInviteStatusWithAggregatesFilter<$PrismaModel>
+    | $Enums.InviteStatus;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumInviteStatusFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumInviteStatusFilter<$PrismaModel>;
 };

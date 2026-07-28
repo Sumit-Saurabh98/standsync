@@ -14,3 +14,30 @@ export const AuthProvider = {
 } as const;
 
 export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider];
+
+export const Role = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER',
+} as const;
+
+export type Role = (typeof Role)[keyof typeof Role];
+
+export const WebhookPlatform = {
+  SLACK: 'SLACK',
+  DISCORD: 'DISCORD',
+  TEAMS: 'TEAMS',
+  GENERIC: 'GENERIC',
+} as const;
+
+export type WebhookPlatform =
+  (typeof WebhookPlatform)[keyof typeof WebhookPlatform];
+
+export const InviteStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  EXPIRED: 'EXPIRED',
+  REVOKED: 'REVOKED',
+} as const;
+
+export type InviteStatus = (typeof InviteStatus)[keyof typeof InviteStatus];

@@ -12,6 +12,23 @@ enum AuthProvider {
   GOOGLE
   GITHUB
 }
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+enum WebhookPlatform {
+  SLACK
+  DISCORD
+  TEAMS
+  GENERIC
+}
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
 
 model AuthAccount{
   id String @id @default(cuid())
@@ -71,6 +88,9 @@ model User {
   refreshTokens   RefreshToken[]
   passwordResets  PasswordReset[]
   emailVerifications EmailVerification[]
+  teamMemberships TeamMember[]
+  ownedTeams      Team[]       @relation("TeamOwner")
+  invitations     Invitation[] @relation("InvitedBy")
 
 
   @@map("users")
@@ -87,6 +107,61 @@ model EmailVerification {
 
   @@index([userId])
   @@map("email_verifications")
+}
+
+model Team {
+  id        String    @id @default(cuid())
+  name      String
+  ownerId   String
+  owner     User      @relation("TeamOwner", fields: [ownerId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  members     TeamMember[]
+  config      TeamConfig?
+  invitations Invitation[]
+  @@index([ownerId])
+  @@map("teams")
+}
+model TeamMember {
+  id       String   @id @default(cuid())
+  teamId   String
+  team     Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role     Role
+  joinedAt DateTime @default(now())
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@map("team_members")
+}
+model TeamConfig {
+  id              String          @id @default(cuid())
+  teamId          String          @unique
+  team            Team            @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  timezone        String          @default("UTC")
+  workingDays     Int[]           @default([1, 2, 3, 4, 5])
+  standupDeadline String          @default("10:00")
+  reminderTime    String          @default("09:00")
+  webhookUrl      String?
+  webhookPlatform WebhookPlatform @default(GENERIC)
+  isActive        Boolean         @default(true)
+  @@map("team_configs")
+}
+model Invitation {
+  id        String       @id @default(cuid())
+  teamId    String
+  team      Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  email     String
+  role      Role         @default(MEMBER)
+  token     String       @unique
+  status    InviteStatus @default(PENDING)
+  invitedBy String
+  inviter   User         @relation("InvitedBy", fields: [invitedBy], references: [id])
+  expiresAt DateTime
+  createdAt DateTime     @default(now())
+  @@index([teamId, email])
+  @@map("invitations")
 }
 
 

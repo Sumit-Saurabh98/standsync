@@ -12,4 +12,8 @@ export type * from './models/RefreshToken.js';
 export type * from './models/PasswordReset.js';
 export type * from './models/User.js';
 export type * from './models/EmailVerification.js';
+export type * from './models/Team.js';
+export type * from './models/TeamMember.js';
+export type * from './models/TeamConfig.js';
+export type * from './models/Invitation.js';
 export type * from './commonInputTypes.js';

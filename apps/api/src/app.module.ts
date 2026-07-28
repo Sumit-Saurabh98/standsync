@@ -17,6 +17,7 @@ import { ThrottlerStorageRedisService } from '@nest-lab/throttler-storage-redis'
 import { APP_GUARD } from '@nestjs/core';
 import Redis from 'ioredis';
 import { ConfigService } from '@nestjs/config';
+import { TeamsModule } from './modules/teams/teams.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { ConfigService } from '@nestjs/config';
     PrismaModule,
     HealthModule,
     AuthModule,
+    TeamsModule,
     MailModule,
   ],
   controllers: [AppController],

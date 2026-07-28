@@ -221,6 +221,9 @@ export type UserWhereInput = {
   refreshTokens?: Prisma.RefreshTokenListRelationFilter;
   passwordResets?: Prisma.PasswordResetListRelationFilter;
   emailVerifications?: Prisma.EmailVerificationListRelationFilter;
+  teamMemberships?: Prisma.TeamMemberListRelationFilter;
+  ownedTeams?: Prisma.TeamListRelationFilter;
+  invitations?: Prisma.InvitationListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -237,6 +240,9 @@ export type UserOrderByWithRelationInput = {
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput;
   passwordResets?: Prisma.PasswordResetOrderByRelationAggregateInput;
   emailVerifications?: Prisma.EmailVerificationOrderByRelationAggregateInput;
+  teamMemberships?: Prisma.TeamMemberOrderByRelationAggregateInput;
+  ownedTeams?: Prisma.TeamOrderByRelationAggregateInput;
+  invitations?: Prisma.InvitationOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -257,6 +263,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     refreshTokens?: Prisma.RefreshTokenListRelationFilter;
     passwordResets?: Prisma.PasswordResetListRelationFilter;
     emailVerifications?: Prisma.EmailVerificationListRelationFilter;
+    teamMemberships?: Prisma.TeamMemberListRelationFilter;
+    ownedTeams?: Prisma.TeamListRelationFilter;
+    invitations?: Prisma.InvitationListRelationFilter;
   },
   'id' | 'email'
 >;
@@ -311,6 +320,9 @@ export type UserCreateInput = {
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -327,6 +339,9 @@ export type UserUncheckedCreateInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
 
 export type UserUpdateInput = {
@@ -345,6 +360,9 @@ export type UserUpdateInput = {
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -363,6 +381,9 @@ export type UserUncheckedUpdateInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -554,6 +575,84 @@ export type UserUpdateOneRequiredWithoutEmailVerificationsNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutOwnedTeamsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutOwnedTeamsInput,
+    Prisma.UserUncheckedCreateWithoutOwnedTeamsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedTeamsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutOwnedTeamsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutOwnedTeamsInput,
+    Prisma.UserUncheckedCreateWithoutOwnedTeamsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedTeamsInput;
+  upsert?: Prisma.UserUpsertWithoutOwnedTeamsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutOwnedTeamsInput,
+      Prisma.UserUpdateWithoutOwnedTeamsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutOwnedTeamsInput
+  >;
+};
+
+export type UserCreateNestedOneWithoutTeamMembershipsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutTeamMembershipsInput,
+    Prisma.UserUncheckedCreateWithoutTeamMembershipsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTeamMembershipsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutTeamMembershipsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutTeamMembershipsInput,
+    Prisma.UserUncheckedCreateWithoutTeamMembershipsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTeamMembershipsInput;
+  upsert?: Prisma.UserUpsertWithoutTeamMembershipsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutTeamMembershipsInput,
+      Prisma.UserUpdateWithoutTeamMembershipsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutTeamMembershipsInput
+  >;
+};
+
+export type UserCreateNestedOneWithoutInvitationsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutInvitationsInput,
+    Prisma.UserUncheckedCreateWithoutInvitationsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitationsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutInvitationsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutInvitationsInput,
+    Prisma.UserUncheckedCreateWithoutInvitationsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitationsInput;
+  upsert?: Prisma.UserUpsertWithoutInvitationsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutInvitationsInput,
+      Prisma.UserUpdateWithoutInvitationsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutInvitationsInput
+  >;
+};
+
 export type UserCreateWithoutAuthAccountsInput = {
   id?: string;
   email: string;
@@ -567,6 +666,9 @@ export type UserCreateWithoutAuthAccountsInput = {
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
 
 export type UserUncheckedCreateWithoutAuthAccountsInput = {
@@ -582,6 +684,9 @@ export type UserUncheckedCreateWithoutAuthAccountsInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
 
 export type UserCreateOrConnectWithoutAuthAccountsInput = {
@@ -627,6 +732,9 @@ export type UserUpdateWithoutAuthAccountsInput = {
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutAuthAccountsInput = {
@@ -644,6 +752,9 @@ export type UserUncheckedUpdateWithoutAuthAccountsInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -659,6 +770,9 @@ export type UserCreateWithoutRefreshTokensInput = {
   authAccounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -674,6 +788,9 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   authAccounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -719,6 +836,9 @@ export type UserUpdateWithoutRefreshTokensInput = {
   authAccounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -736,6 +856,9 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   authAccounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserCreateWithoutPasswordResetsInput = {
@@ -751,6 +874,9 @@ export type UserCreateWithoutPasswordResetsInput = {
   authAccounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput;
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
 
 export type UserUncheckedCreateWithoutPasswordResetsInput = {
@@ -766,6 +892,9 @@ export type UserUncheckedCreateWithoutPasswordResetsInput = {
   authAccounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput;
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
 
 export type UserCreateOrConnectWithoutPasswordResetsInput = {
@@ -811,6 +940,9 @@ export type UserUpdateWithoutPasswordResetsInput = {
   authAccounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput;
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutPasswordResetsInput = {
@@ -828,6 +960,9 @@ export type UserUncheckedUpdateWithoutPasswordResetsInput = {
   authAccounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput;
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserCreateWithoutEmailVerificationsInput = {
@@ -843,6 +978,9 @@ export type UserCreateWithoutEmailVerificationsInput = {
   authAccounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput;
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
 
 export type UserUncheckedCreateWithoutEmailVerificationsInput = {
@@ -858,6 +996,9 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   authAccounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput;
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
 
 export type UserCreateOrConnectWithoutEmailVerificationsInput = {
@@ -903,6 +1044,9 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   authAccounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput;
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
@@ -920,6 +1064,321 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   authAccounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput;
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
+};
+
+export type UserCreateWithoutOwnedTeamsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
+};
+
+export type UserUncheckedCreateWithoutOwnedTeamsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
+};
+
+export type UserCreateOrConnectWithoutOwnedTeamsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutOwnedTeamsInput,
+    Prisma.UserUncheckedCreateWithoutOwnedTeamsInput
+  >;
+};
+
+export type UserUpsertWithoutOwnedTeamsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutOwnedTeamsInput,
+    Prisma.UserUncheckedUpdateWithoutOwnedTeamsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutOwnedTeamsInput,
+    Prisma.UserUncheckedCreateWithoutOwnedTeamsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutOwnedTeamsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutOwnedTeamsInput,
+    Prisma.UserUncheckedUpdateWithoutOwnedTeamsInput
+  >;
+};
+
+export type UserUpdateWithoutOwnedTeamsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutOwnedTeamsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
+};
+
+export type UserCreateWithoutTeamMembershipsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
+};
+
+export type UserUncheckedCreateWithoutTeamMembershipsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
+};
+
+export type UserCreateOrConnectWithoutTeamMembershipsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutTeamMembershipsInput,
+    Prisma.UserUncheckedCreateWithoutTeamMembershipsInput
+  >;
+};
+
+export type UserUpsertWithoutTeamMembershipsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutTeamMembershipsInput,
+    Prisma.UserUncheckedUpdateWithoutTeamMembershipsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutTeamMembershipsInput,
+    Prisma.UserUncheckedCreateWithoutTeamMembershipsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutTeamMembershipsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutTeamMembershipsInput,
+    Prisma.UserUncheckedUpdateWithoutTeamMembershipsInput
+  >;
+};
+
+export type UserUpdateWithoutTeamMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
+};
+
+export type UserCreateWithoutInvitationsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+};
+
+export type UserUncheckedCreateWithoutInvitationsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+};
+
+export type UserCreateOrConnectWithoutInvitationsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutInvitationsInput,
+    Prisma.UserUncheckedCreateWithoutInvitationsInput
+  >;
+};
+
+export type UserUpsertWithoutInvitationsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutInvitationsInput,
+    Prisma.UserUncheckedUpdateWithoutInvitationsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutInvitationsInput,
+    Prisma.UserUncheckedCreateWithoutInvitationsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutInvitationsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutInvitationsInput,
+    Prisma.UserUncheckedUpdateWithoutInvitationsInput
+  >;
+};
+
+export type UserUpdateWithoutInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
 };
 
 /**
@@ -931,6 +1390,9 @@ export type UserCountOutputType = {
   refreshTokens: number;
   passwordResets: number;
   emailVerifications: number;
+  teamMemberships: number;
+  ownedTeams: number;
+  invitations: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -941,6 +1403,9 @@ export type UserCountOutputTypeSelect<
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs;
   passwordResets?: boolean | UserCountOutputTypeCountPasswordResetsArgs;
   emailVerifications?: boolean | UserCountOutputTypeCountEmailVerificationsArgs;
+  teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs;
+  ownedTeams?: boolean | UserCountOutputTypeCountOwnedTeamsArgs;
+  invitations?: boolean | UserCountOutputTypeCountInvitationsArgs;
 };
 
 /**
@@ -996,6 +1461,36 @@ export type UserCountOutputTypeCountEmailVerificationsArgs<
   where?: Prisma.EmailVerificationWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTeamMembershipsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.TeamMemberWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOwnedTeamsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.TeamWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInvitationsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.InvitationWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -1014,6 +1509,9 @@ export type UserSelect<
     refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>;
     passwordResets?: boolean | Prisma.User$passwordResetsArgs<ExtArgs>;
     emailVerifications?: boolean | Prisma.User$emailVerificationsArgs<ExtArgs>;
+    teamMemberships?: boolean | Prisma.User$teamMembershipsArgs<ExtArgs>;
+    ownedTeams?: boolean | Prisma.User$ownedTeamsArgs<ExtArgs>;
+    invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -1090,6 +1588,9 @@ export type UserInclude<
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>;
   passwordResets?: boolean | Prisma.User$passwordResetsArgs<ExtArgs>;
   emailVerifications?: boolean | Prisma.User$emailVerificationsArgs<ExtArgs>;
+  teamMemberships?: boolean | Prisma.User$teamMembershipsArgs<ExtArgs>;
+  ownedTeams?: boolean | Prisma.User$ownedTeamsArgs<ExtArgs>;
+  invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -1111,6 +1612,9 @@ export type $UserPayload<
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[];
     passwordResets: Prisma.$PasswordResetPayload<ExtArgs>[];
     emailVerifications: Prisma.$EmailVerificationPayload<ExtArgs>[];
+    teamMemberships: Prisma.$TeamMemberPayload<ExtArgs>[];
+    ownedTeams: Prisma.$TeamPayload<ExtArgs>[];
+    invitations: Prisma.$InvitationPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1713,6 +2217,39 @@ export interface Prisma__UserClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$EmailVerificationPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  teamMemberships<T extends Prisma.User$teamMembershipsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$teamMembershipsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$TeamMemberPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  ownedTeams<T extends Prisma.User$ownedTeamsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$ownedTeamsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$TeamPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  invitations<T extends Prisma.User$invitationsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$invitationsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$InvitationPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -2325,6 +2862,94 @@ export type User$emailVerificationsArgs<
   distinct?:
     | Prisma.EmailVerificationScalarFieldEnum
     | Prisma.EmailVerificationScalarFieldEnum[];
+};
+
+/**
+ * User.teamMemberships
+ */
+export type User$teamMembershipsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the TeamMember
+   */
+  select?: Prisma.TeamMemberSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the TeamMember
+   */
+  omit?: Prisma.TeamMemberOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamMemberInclude<ExtArgs> | null;
+  where?: Prisma.TeamMemberWhereInput;
+  orderBy?:
+    | Prisma.TeamMemberOrderByWithRelationInput
+    | Prisma.TeamMemberOrderByWithRelationInput[];
+  cursor?: Prisma.TeamMemberWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    Prisma.TeamMemberScalarFieldEnum | Prisma.TeamMemberScalarFieldEnum[];
+};
+
+/**
+ * User.ownedTeams
+ */
+export type User$ownedTeamsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Team
+   */
+  select?: Prisma.TeamSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Team
+   */
+  omit?: Prisma.TeamOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamInclude<ExtArgs> | null;
+  where?: Prisma.TeamWhereInput;
+  orderBy?:
+    Prisma.TeamOrderByWithRelationInput | Prisma.TeamOrderByWithRelationInput[];
+  cursor?: Prisma.TeamWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.TeamScalarFieldEnum | Prisma.TeamScalarFieldEnum[];
+};
+
+/**
+ * User.invitations
+ */
+export type User$invitationsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Invitation
+   */
+  select?: Prisma.InvitationSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Invitation
+   */
+  omit?: Prisma.InvitationOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvitationInclude<ExtArgs> | null;
+  where?: Prisma.InvitationWhereInput;
+  orderBy?:
+    | Prisma.InvitationOrderByWithRelationInput
+    | Prisma.InvitationOrderByWithRelationInput[];
+  cursor?: Prisma.InvitationWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    Prisma.InvitationScalarFieldEnum | Prisma.InvitationScalarFieldEnum[];
 };
 
 /**

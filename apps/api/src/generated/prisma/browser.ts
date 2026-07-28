@@ -41,3 +41,23 @@ export type User = Prisma.UserModel;
  *
  */
 export type EmailVerification = Prisma.EmailVerificationModel;
+/**
+ * Model Team
+ *
+ */
+export type Team = Prisma.TeamModel;
+/**
+ * Model TeamMember
+ *
+ */
+export type TeamMember = Prisma.TeamMemberModel;
+/**
+ * Model TeamConfig
+ *
+ */
+export type TeamConfig = Prisma.TeamConfigModel;
+/**
+ * Model Invitation
+ *
+ */
+export type Invitation = Prisma.InvitationModel;
