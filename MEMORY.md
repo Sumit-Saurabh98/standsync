@@ -12,27 +12,21 @@ themselves. The assistant's job is to guide and teach, not to build for them.
 
 **Ground rules:**
 
-1. **The assistant writes code in chat. The developer types it into the files.**
-   The assistant does not create or edit code files in the repo — it provides the
-   exact code, and the developer enters it by hand.
-
-2. **One step at a time (spoon-feed).** Give a single step, then wait until the
-   developer finishes before moving to the next. No dumping multiple steps ahead.
-
-3. **Always point to the docs.** For each step, say which doc and section to read
-   (e.g. `docs/architecture.md` → Modules) and which file the code goes in.
-
-4. **Do not overexplain general/Node topics.** Keep it short; expand only when the
+1. **Backend:** assistant writes code in chat → developer types into files (spoon-feed,
+   one step at a time). Assistant does not edit backend files in the repo.
+2. **Frontend:** assistant edits `apps/web` directly (full code changes in repo).
+3. **One step at a time for backend.** Give a single step, wait until the developer
+   finishes before the next. Frontend can be delivered in larger slices.
+4. **Always point to the docs** for backend steps (which doc/section + which file).
+5. **Do not overexplain general/Node topics.** Keep it short; expand only when the
    developer asks "why" or "explain."
-
-5. **Teach NestJS as we go.** The developer is a Node.js pro but new to NestJS.
+6. **Teach NestJS as we go.** The developer is a Node.js pro but new to NestJS.
    Explain every NestJS-specific concept the first time it appears — dependency
    injection, providers, modules, decorators, guards, pipes, interceptors, DTOs,
    lifecycle — briefly and tied to the code being written. Skip Node basics.
 
-_(Exception already used: the `docs/` files and the project `README.md` were
-written by the assistant up front, by request. From the build phase onward, the
-developer writes the code.)_
+_(Exceptions: `docs/` + `README.md` written by assistant up front; `apps/web`
+frontend written/edited by assistant directly.)_
 
 ---
 
@@ -43,7 +37,7 @@ standups, the system compiles a daily digest and sends it to Slack/Discord/Teams
 via webhook, reminds non-submitters, and provides history, reports, and analytics.
 
 - **Stack:** NestJS + TypeScript · PostgreSQL + Prisma · Redis + BullMQ · JWT auth
-- **Shape:** Modular monolith, backend-only, separate API and worker processes.
+- **Shape:** Modular monolith — NestJS API + worker; Next.js web (`apps/web`).
 
 ---
 
@@ -190,15 +184,58 @@ and refreshed README's stale pre-monorepo paths/doc table while at it.
 Lesson: when debugging "X isn't happening" for anything mail-related, FIRST check
 the worker process is running before anything else.
 
-=== NEXT — Phase 2 ===
-Begin **Phase 2 — Teams & RBAC, BACKEND-FIRST** (see docs/roadmap.md Phase 2 +
-docs/database_schema.md Team/TeamMember/TeamConfig/Invitation + docs/api_specification.md
-Teams). Backend code = USER TYPES (spoon-feed, teach NestJS). Frontend code = I write.
-Run API: `cd apps/api && npm run start:dev` (:3000). Run web: `cd apps/web && npm run dev` (:3001).
-Still deferred (do with their UI later): account linking/unlinking endpoints + UI,
-OAuth `state` CSRF. Test users: sumitsaurabh112@gmail.com (Google, no pw),
+=== Phase 2 — Teams & RBAC — COMPLETE (2026-07-30) ===
+
+**Backend** (`apps/api/src/modules/teams/`) — developer typed, spoon-fed:
+- Prisma: `Team`, `TeamMember`, `TeamConfig`, `Invitation` + enums (`Role`,
+  `WebhookPlatform`, `InviteStatus`). Migration `teams_and_rbac`.
+- `TeamsModule` + `TeamsService` + `TeamsController`.
+- Team CRUD: `POST/GET/PATCH/DELETE /teams` (soft delete).
+- `GET /teams/:id`, `GET /teams/:id/members`.
+- RBAC: `@Roles()` decorator + `TeamMembershipGuard` (membership + role check).
+- Member mgmt: `PATCH/DELETE /teams/:id/members/:userId` (OWNER/ADMIN rules in
+  service — can't modify owner, ADMIN can't touch ADMIN, no self-remove).
+- Invitations: `POST /teams/:id/invitations` (async mail via BullMQ MAIL queue
+  in TeamsModule), `POST /teams/invitations/:token/accept` (email must match JWT
+  user). Invite link → `WEB_ORIGIN/accept-invitation?token=...`.
+- Team config: `GET/PUT /teams/:id/config` (OWNER/ADMIN write).
+- DTOs: `create-team`, `update-team`, `create-invitation`, `update-member-role`,
+  `update-team-config`.
+
+**Frontend** (`apps/web`) — assistant edited directly:
+- Types + all teams methods in `lib/types.ts` + `lib/api-client.ts`.
+- `hooks/use-require-auth.ts`, `components/layout/AppShell.tsx`,
+  `components/teams/RoleBadge.tsx`.
+- Route group `app/(app)/` — auth guard layout + shell.
+- `/teams` — list + create team.
+- `/teams/[id]` — members, invite form, role change, remove, delete team.
+- `/teams/[id]/settings` — full config form (timezone, working days, deadline,
+  webhook, isActive).
+- `/accept-invitation?token=` — auto-accept when logged in; login redirect w/
+  `?next=` param.
+- `/dashboard` + `/` redirect → `/teams`. OAuth callback → `/teams`.
+- Login supports `?next=` for post-login redirect (invite flow).
+
+**Verified live in browser:** create team, invite member (email via worker),
+accept invitation end-to-end, team appears in list.
+
+**Frontend bugs fixed same session:**
+1. Accept-invitation stuck on "Accepting…" — React Strict Mode cancelled in-flight
+   request while `status !== 'idle'` blocked retry. Fixed with `useRef` guard.
+2. Success page "Go to teams" button left-aligned — fixed `mx-auto w-auto` on Button.
+
+Still deferred (unchanged): OAuth `state` CSRF, account linking/unlinking endpoints
++ UI.
+
+Test users: sumitsaurabh112@gmail.com (Google, no pw),
 sumitsaurabh112+standsync1@gmail.com (pw N3wPass!word).
 
-Email verification (ADR-016): password signups get a verify email (can log in
-meanwhile, isEmailVerified=false until verified); social logins auto-verified.
-`EmailVerification` table to be added to Prisma when we build that step.
+Run: `npm run api` (:3000) + `npm run api:worker` (mail) + `npm run web` (:3001).
+
+=== NEXT — Phase 3 ===
+**Standups (Core)** — backend-first per roadmap (see `docs/roadmap.md` Phase 3 +
+`docs/database_schema.md` Standup + `docs/api_specification.md` Standups).
+Backend = developer types (spoon-feed). Frontend = assistant edits `apps/web`.
+- Submit standup (one-per-day, partial unique index)
+- Edit before deadline, late flag
+- Today's board, history with cursor pagination

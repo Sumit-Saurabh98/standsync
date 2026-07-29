@@ -1,4 +1,16 @@
-import { ApiError, LoginResponse, User } from "./types";
+import {
+  AcceptInvitationResult,
+  ApiError,
+  Invitation,
+  LoginResponse,
+  TeamConfig,
+  TeamDetail,
+  TeamListItem,
+  TeamMember,
+  TeamRole,
+  UpdateTeamConfigInput,
+  User,
+} from "./types";
 
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api/v1";
@@ -103,6 +115,51 @@ export const api = {
 
   resendVerification: (email: string) =>
     request<void>("/auth/verify-email/resend", { method: "POST", auth: false, body: { email } }),
+
+  listTeams: () => request<TeamListItem[]>("/teams"),
+
+  getTeam: (id: string) => request<TeamDetail>(`/teams/${id}`),
+
+  createTeam: (input: { name: string }) =>
+    request<TeamDetail>("/teams", { method: "POST", body: input }),
+
+  updateTeam: (id: string, input: { name: string }) =>
+    request<TeamDetail>(`/teams/${id}`, { method: "PATCH", body: input }),
+
+  deleteTeam: (id: string) =>
+    request<void>(`/teams/${id}`, { method: "DELETE" }),
+
+  listMembers: (teamId: string) =>
+    request<TeamMember[]>(`/teams/${teamId}/members`),
+
+  updateMemberRole: (teamId: string, userId: string, role: TeamRole) =>
+    request<TeamMember>(`/teams/${teamId}/members/${userId}`, {
+      method: "PATCH",
+      body: { role },
+    }),
+
+  removeMember: (teamId: string, userId: string) =>
+    request<void>(`/teams/${teamId}/members/${userId}`, { method: "DELETE" }),
+
+  inviteMember: (teamId: string, input: { email: string; role?: TeamRole }) =>
+    request<Invitation>(`/teams/${teamId}/invitations`, {
+      method: "POST",
+      body: input,
+    }),
+
+  acceptInvitation: (token: string) =>
+    request<AcceptInvitationResult>(`/teams/invitations/${token}/accept`, {
+      method: "POST",
+    }),
+
+  getTeamConfig: (teamId: string) =>
+    request<TeamConfig>(`/teams/${teamId}/config`),
+
+  updateTeamConfig: (teamId: string, input: UpdateTeamConfigInput) =>
+    request<TeamConfig>(`/teams/${teamId}/config`, {
+      method: "PUT",
+      body: input,
+    }),
 };
 
 /** Full-page redirect to start an OAuth flow. */

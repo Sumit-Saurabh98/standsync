@@ -31,5 +31,9 @@ export const envValidationSchema = Joi.object({
   GITHUB_CALLBACK_URL: Joi.string().optional(),
   OAUTH_SUCCESS_REDIRECT: Joi.string().default('http://localhost:3001'),
   THROTTLE_TTL: Joi.number().default(60),
-  THROTTLE_LIMIT: Joi.number().default(100),
+  THROTTLE_LIMIT: Joi.when('NODE_ENV', {
+    is: 'development',
+    then: Joi.number().default(1000),
+    otherwise: Joi.number().default(100),
+  }),
 });

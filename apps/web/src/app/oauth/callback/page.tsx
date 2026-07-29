@@ -23,7 +23,7 @@ export default function OAuthCallbackPage() {
       return;
     }
     setAccessToken(token);
-    void refreshUser().then(() => router.replace("/dashboard"));
+    void refreshUser().then(() => router.replace("/teams"));
   }, [router, refreshUser]);
 
   return (

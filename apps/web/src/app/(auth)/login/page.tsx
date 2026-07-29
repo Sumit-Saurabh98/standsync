@@ -23,7 +23,9 @@ const ERROR_MESSAGES: Record<string, string> = {
 function LoginForm() {
   const router = useRouter();
   const { login } = useAuth();
-  const oauthError = useSearchParams().get("error");
+  const searchParams = useSearchParams();
+  const oauthError = searchParams.get("error");
+  const next = searchParams.get("next");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +44,7 @@ function LoginForm() {
     setLoading(true);
     try {
       await login(email, password);
-      router.push("/dashboard");
+      router.push(next?.startsWith("/") ? next : "/teams");
     } catch (err) {
       if (err instanceof ApiError && err.code === "EMAIL_NOT_VERIFIED") {
         setNeedsVerification(true);
