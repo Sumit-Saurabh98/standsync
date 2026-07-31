@@ -140,11 +140,28 @@ export default function TeamDetailPage() {
         </div>
 
         {isManager && (
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={`/teams/${teamId}/standups`}
+              className="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-hover"
+            >
+              Standup board
+            </Link>
+            <Link
+              href={`/teams/${teamId}/settings`}
+              className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
+            >
+              Team settings
+            </Link>
+          </div>
+        )}
+
+        {!isManager && (
           <Link
-            href={`/teams/${teamId}/settings`}
-            className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
+            href={`/teams/${teamId}/standups`}
+            className="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-hover"
           >
-            Team settings
+            Standup board
           </Link>
         )}
       </div>

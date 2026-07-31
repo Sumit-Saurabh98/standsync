@@ -3,11 +3,16 @@ import {
   ApiError,
   Invitation,
   LoginResponse,
+  Standup,
+  StandupListResponse,
+  SubmitStandupInput,
   TeamConfig,
   TeamDetail,
   TeamListItem,
   TeamMember,
   TeamRole,
+  TodayBoard,
+  UpdateStandupInput,
   UpdateTeamConfigInput,
   User,
 } from "./types";
@@ -73,6 +78,19 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   }
 
   return data as T;
+}
+
+function toQuery(
+  params: Record<string, string | number | undefined>,
+): string {
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== "") {
+      search.set(key, String(value));
+    }
+  }
+  const qs = search.toString();
+  return qs ? `?${qs}` : "";
 }
 
 /** Silent refresh: exchange the refresh cookie for a new access token. */
@@ -158,6 +176,37 @@ export const api = {
   updateTeamConfig: (teamId: string, input: UpdateTeamConfigInput) =>
     request<TeamConfig>(`/teams/${teamId}/config`, {
       method: "PUT",
+      body: input,
+    }),
+
+  getTodayBoard: (teamId: string) =>
+    request<TodayBoard>(`/teams/${teamId}/standups/today`),
+
+  listStandups: (
+    teamId: string,
+    params: {
+      limit?: number;
+      cursor?: string;
+      date?: string;
+      userId?: string;
+    } = {},
+  ) =>
+    request<StandupListResponse>(
+      `/teams/${teamId}/standups${toQuery(params)}`,
+    ),
+
+  getStandup: (standupId: string) =>
+    request<Standup>(`/standups/${standupId}`),
+
+  submitStandup: (teamId: string, input: SubmitStandupInput) =>
+    request<Standup>(`/teams/${teamId}/standups`, {
+      method: "POST",
+      body: input,
+    }),
+
+  updateStandup: (standupId: string, input: UpdateStandupInput) =>
+    request<Standup>(`/standups/${standupId}`, {
+      method: "PATCH",
       body: input,
     }),
 };

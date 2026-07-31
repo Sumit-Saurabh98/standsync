@@ -89,6 +89,7 @@ model User {
   passwordResets  PasswordReset[]
   emailVerifications EmailVerification[]
   teamMemberships TeamMember[]
+  standups        Standup[]
   ownedTeams      Team[]       @relation("TeamOwner")
   invitations     Invitation[] @relation("InvitedBy")
 
@@ -120,6 +121,7 @@ model Team {
   members     TeamMember[]
   config      TeamConfig?
   invitations Invitation[]
+  standups      Standup[]
   @@index([ownerId])
   @@map("teams")
 }
@@ -162,6 +164,26 @@ model Invitation {
   createdAt DateTime     @default(now())
   @@index([teamId, email])
   @@map("invitations")
+}
+
+model Standup {
+  id          String    @id @default(cuid())
+  teamId      String
+  team        Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  standupDate DateTime  @db.Date
+  yesterday   String
+  today       String
+  blockers    String?
+  isLate      Boolean   @default(false)
+  submittedAt DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@index([teamId, standupDate])
+  @@index([userId, standupDate])
+  @@map("standups")
 }
 
 

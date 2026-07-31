@@ -16,4 +16,5 @@ export type * from './models/Team.js';
 export type * from './models/TeamMember.js';
 export type * from './models/TeamConfig.js';
 export type * from './models/Invitation.js';
+export type * from './models/Standup.js';
 export type * from './commonInputTypes.js';

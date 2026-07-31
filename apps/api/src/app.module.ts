@@ -18,6 +18,7 @@ import { APP_GUARD } from '@nestjs/core';
 import Redis from 'ioredis';
 import { ConfigService } from '@nestjs/config';
 import { TeamsModule } from './modules/teams/teams.module';
+import { StandupsModule } from './modules/standups/standups.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { TeamsModule } from './modules/teams/teams.module';
     HealthModule,
     AuthModule,
     TeamsModule,
+    StandupsModule,
     MailModule,
   ],
   controllers: [AppController],

@@ -436,6 +436,7 @@ export const ModelName = {
   TeamMember: 'TeamMember',
   TeamConfig: 'TeamConfig',
   Invitation: 'Invitation',
+  Standup: 'Standup',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -466,7 +467,8 @@ export type TypeMap<
       | 'team'
       | 'teamMember'
       | 'teamConfig'
-      | 'invitation';
+      | 'invitation'
+      | 'standup';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -1154,6 +1156,82 @@ export type TypeMap<
         };
       };
     };
+    Standup: {
+      payload: Prisma.$StandupPayload<ExtArgs>;
+      fields: Prisma.StandupFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.StandupFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.StandupFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>;
+        };
+        findFirst: {
+          args: Prisma.StandupFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.StandupFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>;
+        };
+        findMany: {
+          args: Prisma.StandupFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>[];
+        };
+        create: {
+          args: Prisma.StandupCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>;
+        };
+        createMany: {
+          args: Prisma.StandupCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.StandupCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>[];
+        };
+        delete: {
+          args: Prisma.StandupDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>;
+        };
+        update: {
+          args: Prisma.StandupUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>;
+        };
+        deleteMany: {
+          args: Prisma.StandupDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.StandupUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.StandupUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>[];
+        };
+        upsert: {
+          args: Prisma.StandupUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StandupPayload>;
+        };
+        aggregate: {
+          args: Prisma.StandupAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStandup>;
+        };
+        groupBy: {
+          args: Prisma.StandupGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.StandupGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.StandupCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.StandupCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -1310,6 +1388,23 @@ export const InvitationScalarFieldEnum = {
 
 export type InvitationScalarFieldEnum =
   (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum];
+
+export const StandupScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  userId: 'userId',
+  standupDate: 'standupDate',
+  yesterday: 'yesterday',
+  today: 'today',
+  blockers: 'blockers',
+  isLate: 'isLate',
+  submittedAt: 'submittedAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+} as const;
+
+export type StandupScalarFieldEnum =
+  (typeof StandupScalarFieldEnum)[keyof typeof StandupScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',
@@ -1620,6 +1715,7 @@ export type GlobalOmitConfig = {
   teamMember?: Prisma.TeamMemberOmit;
   teamConfig?: Prisma.TeamConfigOmit;
   invitation?: Prisma.InvitationOmit;
+  standup?: Prisma.StandupOmit;
 };
 
 /* Types for Logging */

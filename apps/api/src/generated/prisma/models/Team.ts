@@ -200,6 +200,7 @@ export type TeamWhereInput = {
     Prisma.TeamConfigWhereInput
   > | null;
   invitations?: Prisma.InvitationListRelationFilter;
+  standups?: Prisma.StandupListRelationFilter;
 };
 
 export type TeamOrderByWithRelationInput = {
@@ -213,6 +214,7 @@ export type TeamOrderByWithRelationInput = {
   members?: Prisma.TeamMemberOrderByRelationAggregateInput;
   config?: Prisma.TeamConfigOrderByWithRelationInput;
   invitations?: Prisma.InvitationOrderByRelationAggregateInput;
+  standups?: Prisma.StandupOrderByRelationAggregateInput;
 };
 
 export type TeamWhereUniqueInput = Prisma.AtLeast<
@@ -233,6 +235,7 @@ export type TeamWhereUniqueInput = Prisma.AtLeast<
       Prisma.TeamConfigWhereInput
     > | null;
     invitations?: Prisma.InvitationListRelationFilter;
+    standups?: Prisma.StandupListRelationFilter;
   },
   'id'
 >;
@@ -276,6 +279,7 @@ export type TeamCreateInput = {
   members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput;
   config?: Prisma.TeamConfigCreateNestedOneWithoutTeamInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamUncheckedCreateInput = {
@@ -288,6 +292,7 @@ export type TeamUncheckedCreateInput = {
   members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput;
   config?: Prisma.TeamConfigUncheckedCreateNestedOneWithoutTeamInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupUncheckedCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamUpdateInput = {
@@ -301,6 +306,7 @@ export type TeamUpdateInput = {
   members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput;
   config?: Prisma.TeamConfigUpdateOneWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamUncheckedUpdateInput = {
@@ -314,6 +320,7 @@ export type TeamUncheckedUpdateInput = {
   members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput;
   config?: Prisma.TeamConfigUncheckedUpdateOneWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUncheckedUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamCreateManyInput = {
@@ -550,6 +557,32 @@ export type TeamUpdateOneRequiredWithoutInvitationsNestedInput = {
   >;
 };
 
+export type TeamCreateNestedOneWithoutStandupsInput = {
+  create?: Prisma.XOR<
+    Prisma.TeamCreateWithoutStandupsInput,
+    Prisma.TeamUncheckedCreateWithoutStandupsInput
+  >;
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutStandupsInput;
+  connect?: Prisma.TeamWhereUniqueInput;
+};
+
+export type TeamUpdateOneRequiredWithoutStandupsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.TeamCreateWithoutStandupsInput,
+    Prisma.TeamUncheckedCreateWithoutStandupsInput
+  >;
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutStandupsInput;
+  upsert?: Prisma.TeamUpsertWithoutStandupsInput;
+  connect?: Prisma.TeamWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.TeamUpdateToOneWithWhereWithoutStandupsInput,
+      Prisma.TeamUpdateWithoutStandupsInput
+    >,
+    Prisma.TeamUncheckedUpdateWithoutStandupsInput
+  >;
+};
+
 export type TeamCreateWithoutOwnerInput = {
   id?: string;
   name: string;
@@ -559,6 +592,7 @@ export type TeamCreateWithoutOwnerInput = {
   members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput;
   config?: Prisma.TeamConfigCreateNestedOneWithoutTeamInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamUncheckedCreateWithoutOwnerInput = {
@@ -570,6 +604,7 @@ export type TeamUncheckedCreateWithoutOwnerInput = {
   members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput;
   config?: Prisma.TeamConfigUncheckedCreateNestedOneWithoutTeamInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupUncheckedCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamCreateOrConnectWithoutOwnerInput = {
@@ -634,6 +669,7 @@ export type TeamCreateWithoutMembersInput = {
   owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput;
   config?: Prisma.TeamConfigCreateNestedOneWithoutTeamInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamUncheckedCreateWithoutMembersInput = {
@@ -645,6 +681,7 @@ export type TeamUncheckedCreateWithoutMembersInput = {
   deletedAt?: Date | string | null;
   config?: Prisma.TeamConfigUncheckedCreateNestedOneWithoutTeamInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupUncheckedCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamCreateOrConnectWithoutMembersInput = {
@@ -685,6 +722,7 @@ export type TeamUpdateWithoutMembersInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput;
   config?: Prisma.TeamConfigUpdateOneWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamUncheckedUpdateWithoutMembersInput = {
@@ -697,6 +735,7 @@ export type TeamUncheckedUpdateWithoutMembersInput = {
     Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   config?: Prisma.TeamConfigUncheckedUpdateOneWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUncheckedUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamCreateWithoutConfigInput = {
@@ -708,6 +747,7 @@ export type TeamCreateWithoutConfigInput = {
   owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput;
   members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamUncheckedCreateWithoutConfigInput = {
@@ -719,6 +759,7 @@ export type TeamUncheckedCreateWithoutConfigInput = {
   deletedAt?: Date | string | null;
   members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutTeamInput;
+  standups?: Prisma.StandupUncheckedCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamCreateOrConnectWithoutConfigInput = {
@@ -759,6 +800,7 @@ export type TeamUpdateWithoutConfigInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput;
   members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamUncheckedUpdateWithoutConfigInput = {
@@ -771,6 +813,7 @@ export type TeamUncheckedUpdateWithoutConfigInput = {
     Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUncheckedUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamCreateWithoutInvitationsInput = {
@@ -782,6 +825,7 @@ export type TeamCreateWithoutInvitationsInput = {
   owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput;
   members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput;
   config?: Prisma.TeamConfigCreateNestedOneWithoutTeamInput;
+  standups?: Prisma.StandupCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamUncheckedCreateWithoutInvitationsInput = {
@@ -793,6 +837,7 @@ export type TeamUncheckedCreateWithoutInvitationsInput = {
   deletedAt?: Date | string | null;
   members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput;
   config?: Prisma.TeamConfigUncheckedCreateNestedOneWithoutTeamInput;
+  standups?: Prisma.StandupUncheckedCreateNestedManyWithoutTeamInput;
 };
 
 export type TeamCreateOrConnectWithoutInvitationsInput = {
@@ -833,6 +878,7 @@ export type TeamUpdateWithoutInvitationsInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput;
   members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput;
   config?: Prisma.TeamConfigUpdateOneWithoutTeamNestedInput;
+  standups?: Prisma.StandupUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamUncheckedUpdateWithoutInvitationsInput = {
@@ -845,6 +891,85 @@ export type TeamUncheckedUpdateWithoutInvitationsInput = {
     Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput;
   config?: Prisma.TeamConfigUncheckedUpdateOneWithoutTeamNestedInput;
+  standups?: Prisma.StandupUncheckedUpdateManyWithoutTeamNestedInput;
+};
+
+export type TeamCreateWithoutStandupsInput = {
+  id?: string;
+  name: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput;
+  members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput;
+  config?: Prisma.TeamConfigCreateNestedOneWithoutTeamInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutTeamInput;
+};
+
+export type TeamUncheckedCreateWithoutStandupsInput = {
+  id?: string;
+  name: string;
+  ownerId: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput;
+  config?: Prisma.TeamConfigUncheckedCreateNestedOneWithoutTeamInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutTeamInput;
+};
+
+export type TeamCreateOrConnectWithoutStandupsInput = {
+  where: Prisma.TeamWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.TeamCreateWithoutStandupsInput,
+    Prisma.TeamUncheckedCreateWithoutStandupsInput
+  >;
+};
+
+export type TeamUpsertWithoutStandupsInput = {
+  update: Prisma.XOR<
+    Prisma.TeamUpdateWithoutStandupsInput,
+    Prisma.TeamUncheckedUpdateWithoutStandupsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.TeamCreateWithoutStandupsInput,
+    Prisma.TeamUncheckedCreateWithoutStandupsInput
+  >;
+  where?: Prisma.TeamWhereInput;
+};
+
+export type TeamUpdateToOneWithWhereWithoutStandupsInput = {
+  where?: Prisma.TeamWhereInput;
+  data: Prisma.XOR<
+    Prisma.TeamUpdateWithoutStandupsInput,
+    Prisma.TeamUncheckedUpdateWithoutStandupsInput
+  >;
+};
+
+export type TeamUpdateWithoutStandupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput;
+  members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput;
+  config?: Prisma.TeamConfigUpdateOneWithoutTeamNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutTeamNestedInput;
+};
+
+export type TeamUncheckedUpdateWithoutStandupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput;
+  config?: Prisma.TeamConfigUncheckedUpdateOneWithoutTeamNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamCreateManyOwnerInput = {
@@ -865,6 +990,7 @@ export type TeamUpdateWithoutOwnerInput = {
   members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput;
   config?: Prisma.TeamConfigUpdateOneWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamUncheckedUpdateWithoutOwnerInput = {
@@ -877,6 +1003,7 @@ export type TeamUncheckedUpdateWithoutOwnerInput = {
   members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput;
   config?: Prisma.TeamConfigUncheckedUpdateOneWithoutTeamNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutTeamNestedInput;
+  standups?: Prisma.StandupUncheckedUpdateManyWithoutTeamNestedInput;
 };
 
 export type TeamUncheckedUpdateManyWithoutOwnerInput = {
@@ -895,6 +1022,7 @@ export type TeamUncheckedUpdateManyWithoutOwnerInput = {
 export type TeamCountOutputType = {
   members: number;
   invitations: number;
+  standups: number;
 };
 
 export type TeamCountOutputTypeSelect<
@@ -903,6 +1031,7 @@ export type TeamCountOutputTypeSelect<
 > = {
   members?: boolean | TeamCountOutputTypeCountMembersArgs;
   invitations?: boolean | TeamCountOutputTypeCountInvitationsArgs;
+  standups?: boolean | TeamCountOutputTypeCountStandupsArgs;
 };
 
 /**
@@ -938,6 +1067,16 @@ export type TeamCountOutputTypeCountInvitationsArgs<
   where?: Prisma.InvitationWhereInput;
 };
 
+/**
+ * TeamCountOutputType without action
+ */
+export type TeamCountOutputTypeCountStandupsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.StandupWhereInput;
+};
+
 export type TeamSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -953,6 +1092,7 @@ export type TeamSelect<
     members?: boolean | Prisma.Team$membersArgs<ExtArgs>;
     config?: boolean | Prisma.Team$configArgs<ExtArgs>;
     invitations?: boolean | Prisma.Team$invitationsArgs<ExtArgs>;
+    standups?: boolean | Prisma.Team$standupsArgs<ExtArgs>;
     _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['team']
@@ -1014,6 +1154,7 @@ export type TeamInclude<
   members?: boolean | Prisma.Team$membersArgs<ExtArgs>;
   config?: boolean | Prisma.Team$configArgs<ExtArgs>;
   invitations?: boolean | Prisma.Team$invitationsArgs<ExtArgs>;
+  standups?: boolean | Prisma.Team$standupsArgs<ExtArgs>;
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type TeamIncludeCreateManyAndReturn<
@@ -1039,6 +1180,7 @@ export type $TeamPayload<
     members: Prisma.$TeamMemberPayload<ExtArgs>[];
     config: Prisma.$TeamConfigPayload<ExtArgs> | null;
     invitations: Prisma.$InvitationPayload<ExtArgs>[];
+    standups: Prisma.$StandupPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1647,6 +1789,17 @@ export interface Prisma__TeamClient<
       >
     | Null
   >;
+  standups<T extends Prisma.Team$standupsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Team$standupsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$StandupPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2219,6 +2372,35 @@ export type Team$invitationsArgs<
   skip?: number;
   distinct?:
     Prisma.InvitationScalarFieldEnum | Prisma.InvitationScalarFieldEnum[];
+};
+
+/**
+ * Team.standups
+ */
+export type Team$standupsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Standup
+   */
+  select?: Prisma.StandupSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Standup
+   */
+  omit?: Prisma.StandupOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StandupInclude<ExtArgs> | null;
+  where?: Prisma.StandupWhereInput;
+  orderBy?:
+    | Prisma.StandupOrderByWithRelationInput
+    | Prisma.StandupOrderByWithRelationInput[];
+  cursor?: Prisma.StandupWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.StandupScalarFieldEnum | Prisma.StandupScalarFieldEnum[];
 };
 
 /**

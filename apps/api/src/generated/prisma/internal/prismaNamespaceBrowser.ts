@@ -63,6 +63,7 @@ export const ModelName = {
   TeamMember: 'TeamMember',
   TeamConfig: 'TeamConfig',
   Invitation: 'Invitation',
+  Standup: 'Standup',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -198,6 +199,23 @@ export const InvitationScalarFieldEnum = {
 
 export type InvitationScalarFieldEnum =
   (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum];
+
+export const StandupScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  userId: 'userId',
+  standupDate: 'standupDate',
+  yesterday: 'yesterday',
+  today: 'today',
+  blockers: 'blockers',
+  isLate: 'isLate',
+  submittedAt: 'submittedAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+} as const;
+
+export type StandupScalarFieldEnum =
+  (typeof StandupScalarFieldEnum)[keyof typeof StandupScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

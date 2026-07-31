@@ -81,6 +81,73 @@ export interface AcceptInvitationResult {
   role: TeamRole;
 }
 
+export interface StandupUser {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl?: string | null;
+}
+
+export interface Standup {
+  id: string;
+  standupDate: string;
+  yesterday: string;
+  today: string;
+  blockers: string | null;
+  isLate: boolean;
+  submittedAt: string;
+  updatedAt: string;
+  user?: StandupUser;
+  teamId?: string;
+}
+
+export interface TodayBoardSubmitted {
+  id: string;
+  yesterday: string;
+  today: string;
+  blockers: string | null;
+  isLate: boolean;
+  submittedAt: string;
+  updatedAt: string;
+  user: StandupUser;
+  role: TeamRole;
+}
+
+export interface TodayBoardPending {
+  user: StandupUser;
+  role: TeamRole;
+}
+
+export interface TodayBoard {
+  standupDate: string;
+  isWorkingDay: boolean;
+  timezone: string;
+  deadline: string;
+  submitted: TodayBoardSubmitted[];
+  pending: TodayBoardPending[];
+  summary: {
+    submitted: number;
+    pending: number;
+    late: number;
+  };
+}
+
+export interface StandupListResponse {
+  data: Standup[];
+  meta: {
+    nextCursor: string | null;
+    limit: number;
+  };
+}
+
+export interface SubmitStandupInput {
+  yesterday: string;
+  today: string;
+  blockers?: string;
+}
+
+export type UpdateStandupInput = Partial<SubmitStandupInput>;
+
 /** Body for PUT /teams/:id/config — no id/teamId fields. */
 export type UpdateTeamConfigInput = Omit<TeamConfig, "id" | "teamId">;
 

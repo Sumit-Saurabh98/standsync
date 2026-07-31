@@ -232,10 +232,54 @@ sumitsaurabh112+standsync1@gmail.com (pw N3wPass!word).
 
 Run: `npm run api` (:3000) + `npm run api:worker` (mail) + `npm run web` (:3001).
 
-=== NEXT — Phase 3 ===
-**Standups (Core)** — backend-first per roadmap (see `docs/roadmap.md` Phase 3 +
-`docs/database_schema.md` Standup + `docs/api_specification.md` Standups).
-Backend = developer types (spoon-feed). Frontend = assistant edits `apps/web`.
-- Submit standup (one-per-day, partial unique index)
-- Edit before deadline, late flag
-- Today's board, history with cursor pagination
+=== Phase 3 — Standups (Core) — IN PROGRESS (2026-07-31) ===
+
+**Backend** (`apps/api/src/modules/standups/`) — COMPLETE:
+
+DONE:
+- Prisma `Standup` model + migration `standups` (partial unique index on
+  `"teamId","userId","standupDate" WHERE "deletedAt" IS NULL` — use **quoted
+  camelCase** column names in raw SQL, NOT snake_case; docs example is misleading).
+- `standup-time.util.ts` — `teamLocalDate`, `teamLocalWeekday`, `teamLocalTime`
+  (IANA timezone helpers via `Intl`).
+- `standup-cursor.util.ts` — encode/decode cursor for history pagination.
+- `StandupsModule` + `StandupsService` + two controllers (user chose separate
+  controllers over single `@Controller()` w/ full paths):
+  - `standups.controller.ts` — `@Controller('teams/:id/standups')`,
+    `POST` submit, `GET today`, `GET` list (history).
+  - `standup-by-id.controller.ts` — `@Controller('standups')`,
+    `GET :standupId`, `PATCH :standupId` edit.
+- `POST /teams/:id/standups` — submit; one-per-day; `isLate`; 422 non-working day;
+  409 duplicate.
+- `PATCH /standups/:standupId` — edit own; today only; before deadline.
+- `GET /teams/:id/standups/today` — submitted + pending board + summary.
+- `GET /teams/:id/standups` — history w/ cursor (`limit`, `cursor`, `date`, `userId`).
+- `GET /standups/:standupId` — single standup (team member only).
+- DTOs: `submit-standup.dto.ts`, `update-standup.dto.ts`,
+  `list-standups-query.dto.ts`.
+
+DEFERRED (Phase 3 backend):
+- `Idempotency-Key` on submit (roadmap item — safe client retries).
+
+**Frontend** (`apps/web`) — DONE (2026-07-31):
+- Types + standups API methods in `lib/types.ts` + `lib/api-client.ts`
+- `/teams/[id]/standups` — today's board, submit/edit form, history w/ load more
+- Link from team detail → standup board
+- Components: `MemberAvatar`, `TextArea`, `StandupForm`, `StandupCard`
+
+**Dev notes:**
+- After adding a new Prisma model, run `npx prisma generate` + reload IDE window
+  (or restart TS server) if ESLint shows false `no-unsafe-*` on `prisma.standup`
+  — NOT a migration bug; CLI `eslint` + `nest build` pass fine.
+
+Still deferred (unchanged): OAuth `state` CSRF, account linking/unlinking endpoints
++ UI.
+
+Test users: sumitsaurabh112@gmail.com (Google, no pw),
+sumitsaurabh112+standsync1@gmail.com (pw N3wPass!word).
+
+Run: `npm run api` (:3000) + `npm run api:worker` (mail) + `npm run web` (:3001).
+
+=== NEXT — Phase 3 (resume) ===
+Test standup frontend live in browser (submit, edit, board, history).
+Mark Phase 3 complete when verified → Phase 4 — Scheduling & Digests.

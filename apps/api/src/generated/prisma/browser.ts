@@ -61,3 +61,8 @@ export type TeamConfig = Prisma.TeamConfigModel;
  *
  */
 export type Invitation = Prisma.InvitationModel;
+/**
+ * Model Standup
+ *
+ */
+export type Standup = Prisma.StandupModel;
