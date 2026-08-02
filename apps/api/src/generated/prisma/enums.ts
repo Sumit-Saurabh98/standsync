@@ -41,3 +41,20 @@ export const InviteStatus = {
 } as const;
 
 export type InviteStatus = (typeof InviteStatus)[keyof typeof InviteStatus];
+
+export const DigestStatus = {
+  GENERATED: 'GENERATED',
+  SENT: 'SENT',
+  FAILED: 'FAILED',
+} as const;
+
+export type DigestStatus = (typeof DigestStatus)[keyof typeof DigestStatus];
+
+export const DeliveryStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+} as const;
+
+export type DeliveryStatus =
+  (typeof DeliveryStatus)[keyof typeof DeliveryStatus];

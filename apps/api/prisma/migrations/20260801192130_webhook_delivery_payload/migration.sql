@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "webhook_deliveries" ADD COLUMN     "payload" JSONB;

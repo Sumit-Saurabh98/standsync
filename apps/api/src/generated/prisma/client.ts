@@ -94,3 +94,18 @@ export type Invitation = Prisma.InvitationModel;
  *
  */
 export type Standup = Prisma.StandupModel;
+/**
+ * Model Digest
+ *
+ */
+export type Digest = Prisma.DigestModel;
+/**
+ * Model WebhookDelivery
+ *
+ */
+export type WebhookDelivery = Prisma.WebhookDeliveryModel;
+/**
+ * Model DailyTeamStat
+ *
+ */
+export type DailyTeamStat = Prisma.DailyTeamStatModel;

@@ -19,6 +19,8 @@ import Redis from 'ioredis';
 import { ConfigService } from '@nestjs/config';
 import { TeamsModule } from './modules/teams/teams.module';
 import { StandupsModule } from './modules/standups/standups.module';
+import { DigestModule } from './modules/digest/digest.module';
+import { SchedulerModule } from './modules/scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -51,6 +53,11 @@ import { StandupsModule } from './modules/standups/standups.module';
             ? { target: 'pino-pretty', options: { singleLine: true } }
             : undefined,
         redact: ['req.headers.authorization', 'req.headers.cookie'],
+        // In dev, only log failed/slow requests — keeps SchedulerService lines visible.
+        customLogLevel: (_req, res, err) => {
+          if (err || res.statusCode >= 400) return 'warn';
+          return 'silent';
+        },
         genReqId: (req, res) => {
           const existing = req.headers['x-request-id'] as string | undefined;
           const id = existing ?? randomUUID();
@@ -67,6 +74,8 @@ import { StandupsModule } from './modules/standups/standups.module';
     AuthModule,
     TeamsModule,
     StandupsModule,
+    DigestModule,
+    SchedulerModule,
     MailModule,
   ],
   controllers: [AppController],

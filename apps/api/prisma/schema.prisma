@@ -30,6 +30,18 @@ enum InviteStatus {
   REVOKED
 }
 
+enum DigestStatus {
+  GENERATED
+  SENT
+  FAILED
+}
+
+enum DeliveryStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
 model AuthAccount{
   id String @id @default(cuid())
   userId String
@@ -121,7 +133,11 @@ model Team {
   members     TeamMember[]
   config      TeamConfig?
   invitations Invitation[]
-  standups      Standup[]
+  standups            Standup[]
+  digests             Digest[]
+  webhookDeliveries   WebhookDelivery[]
+  dailyTeamStats      DailyTeamStat[]
+
   @@index([ownerId])
   @@map("teams")
 }
@@ -184,6 +200,59 @@ model Standup {
   @@index([teamId, standupDate])
   @@index([userId, standupDate])
   @@map("standups")
+}
+
+model Digest {
+  id          String       @id @default(cuid())
+  teamId      String
+  team        Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  digestDate  DateTime     @db.Date
+  content     Json
+  submitted   Int
+  missing     Int
+  lateCount   Int
+  status      DigestStatus @default(GENERATED)
+  generatedAt DateTime     @default(now())
+  deliveries  WebhookDelivery[]
+
+  @@unique([teamId, digestDate])
+  @@index([teamId])
+  @@map("digests")
+}
+
+model WebhookDelivery {
+  id          String          @id @default(cuid())
+  digestId    String?
+  digest      Digest?         @relation(fields: [digestId], references: [id], onDelete: SetNull)
+  teamId      String
+  team        Team            @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  platform    WebhookPlatform
+  payload     Json?
+  dedupeKey   String          @unique
+  status      DeliveryStatus  @default(PENDING)
+  attempts    Int             @default(0)
+  lastError   String?
+  deliveredAt DateTime?
+
+  @@index([teamId, status])
+  @@map("webhook_deliveries")
+}
+
+model DailyTeamStat {
+  id             String   @id @default(cuid())
+  teamId         String
+  team           Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  statDate       DateTime @db.Date
+  memberCount    Int
+  submittedCount Int
+  missingCount   Int
+  lateCount      Int
+  participation  Float
+  createdAt      DateTime @default(now())
+
+  @@unique([teamId, statDate])
+  @@index([teamId, statDate])
+  @@map("daily_team_stats")
 }
 
 

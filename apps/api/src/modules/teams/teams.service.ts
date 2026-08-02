@@ -17,6 +17,7 @@ import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { UpdateMemberRoleDto } from './dto/update-member-role.dto';
 import { UpdateTeamConfigDto } from './dto/update-team-config.dto';
+import { SchedulerService } from '../scheduler/scheduler.service';
 
 @Injectable()
 export class TeamsService {
@@ -24,11 +25,12 @@ export class TeamsService {
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
     @InjectQueue(QUEUES.MAIL) private readonly mailQueue: Queue,
+    private readonly scheduler: SchedulerService,
   ) {}
 
   async create(userId: string, dto: CreateTeamDto) {
-    return this.prisma.$transaction(async (tx) => {
-      const team = await tx.team.create({
+    const team = await this.prisma.$transaction(async (tx) => {
+      return tx.team.create({
         data: {
           name: dto.name,
           ownerId: userId,
@@ -36,7 +38,7 @@ export class TeamsService {
             create: { userId, role: Role.OWNER },
           },
           config: {
-            create: {}, // uses schema defaults
+            create: {},
           },
         },
         include: {
@@ -47,9 +49,10 @@ export class TeamsService {
           },
         },
       });
-
-      return team;
     });
+
+    await this.scheduler.reconcileTeam(team.id);
+    return team;
   }
 
   async findAllForUser(userId: string) {
@@ -130,6 +133,8 @@ export class TeamsService {
       where: { id: teamId, deletedAt: null },
       data: { deletedAt: new Date() },
     });
+
+    await this.scheduler.reconcileTeam(teamId);
   }
 
   async invite(teamId: string, invitedBy: string, dto: CreateInvitationDto) {
@@ -435,7 +440,7 @@ export class TeamsService {
 
   async updateConfig(teamId: string, dto: UpdateTeamConfigDto) {
     try {
-      return await this.prisma.teamConfig.update({
+      const config = await this.prisma.teamConfig.update({
         where: { teamId },
         data: {
           timezone: dto.timezone,
@@ -447,6 +452,9 @@ export class TeamsService {
           isActive: dto.isActive,
         },
       });
+
+      await this.scheduler.reconcileTeam(teamId);
+      return config;
     } catch {
       throw new NotFoundException({
         code: 'CONFIG_NOT_FOUND',

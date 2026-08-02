@@ -437,6 +437,9 @@ export const ModelName = {
   TeamConfig: 'TeamConfig',
   Invitation: 'Invitation',
   Standup: 'Standup',
+  Digest: 'Digest',
+  WebhookDelivery: 'WebhookDelivery',
+  DailyTeamStat: 'DailyTeamStat',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -468,7 +471,10 @@ export type TypeMap<
       | 'teamMember'
       | 'teamConfig'
       | 'invitation'
-      | 'standup';
+      | 'standup'
+      | 'digest'
+      | 'webhookDelivery'
+      | 'dailyTeamStat';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -1232,6 +1238,234 @@ export type TypeMap<
         };
       };
     };
+    Digest: {
+      payload: Prisma.$DigestPayload<ExtArgs>;
+      fields: Prisma.DigestFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.DigestFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.DigestFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>;
+        };
+        findFirst: {
+          args: Prisma.DigestFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.DigestFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>;
+        };
+        findMany: {
+          args: Prisma.DigestFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>[];
+        };
+        create: {
+          args: Prisma.DigestCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>;
+        };
+        createMany: {
+          args: Prisma.DigestCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.DigestCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>[];
+        };
+        delete: {
+          args: Prisma.DigestDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>;
+        };
+        update: {
+          args: Prisma.DigestUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>;
+        };
+        deleteMany: {
+          args: Prisma.DigestDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.DigestUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.DigestUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>[];
+        };
+        upsert: {
+          args: Prisma.DigestUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DigestPayload>;
+        };
+        aggregate: {
+          args: Prisma.DigestAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDigest>;
+        };
+        groupBy: {
+          args: Prisma.DigestGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.DigestGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.DigestCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.DigestCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    WebhookDelivery: {
+      payload: Prisma.$WebhookDeliveryPayload<ExtArgs>;
+      fields: Prisma.WebhookDeliveryFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.WebhookDeliveryFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.WebhookDeliveryFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>;
+        };
+        findFirst: {
+          args: Prisma.WebhookDeliveryFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.WebhookDeliveryFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>;
+        };
+        findMany: {
+          args: Prisma.WebhookDeliveryFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>[];
+        };
+        create: {
+          args: Prisma.WebhookDeliveryCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>;
+        };
+        createMany: {
+          args: Prisma.WebhookDeliveryCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.WebhookDeliveryCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>[];
+        };
+        delete: {
+          args: Prisma.WebhookDeliveryDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>;
+        };
+        update: {
+          args: Prisma.WebhookDeliveryUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>;
+        };
+        deleteMany: {
+          args: Prisma.WebhookDeliveryDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.WebhookDeliveryUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.WebhookDeliveryUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>[];
+        };
+        upsert: {
+          args: Prisma.WebhookDeliveryUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebhookDeliveryPayload>;
+        };
+        aggregate: {
+          args: Prisma.WebhookDeliveryAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWebhookDelivery>;
+        };
+        groupBy: {
+          args: Prisma.WebhookDeliveryGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.WebhookDeliveryGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.WebhookDeliveryCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.WebhookDeliveryCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    DailyTeamStat: {
+      payload: Prisma.$DailyTeamStatPayload<ExtArgs>;
+      fields: Prisma.DailyTeamStatFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.DailyTeamStatFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.DailyTeamStatFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>;
+        };
+        findFirst: {
+          args: Prisma.DailyTeamStatFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.DailyTeamStatFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>;
+        };
+        findMany: {
+          args: Prisma.DailyTeamStatFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>[];
+        };
+        create: {
+          args: Prisma.DailyTeamStatCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>;
+        };
+        createMany: {
+          args: Prisma.DailyTeamStatCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.DailyTeamStatCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>[];
+        };
+        delete: {
+          args: Prisma.DailyTeamStatDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>;
+        };
+        update: {
+          args: Prisma.DailyTeamStatUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>;
+        };
+        deleteMany: {
+          args: Prisma.DailyTeamStatDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.DailyTeamStatUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.DailyTeamStatUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>[];
+        };
+        upsert: {
+          args: Prisma.DailyTeamStatUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTeamStatPayload>;
+        };
+        aggregate: {
+          args: Prisma.DailyTeamStatAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyTeamStat>;
+        };
+        groupBy: {
+          args: Prisma.DailyTeamStatGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.DailyTeamStatGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.DailyTeamStatCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.DailyTeamStatCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -1406,12 +1640,73 @@ export const StandupScalarFieldEnum = {
 export type StandupScalarFieldEnum =
   (typeof StandupScalarFieldEnum)[keyof typeof StandupScalarFieldEnum];
 
+export const DigestScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  digestDate: 'digestDate',
+  content: 'content',
+  submitted: 'submitted',
+  missing: 'missing',
+  lateCount: 'lateCount',
+  status: 'status',
+  generatedAt: 'generatedAt',
+} as const;
+
+export type DigestScalarFieldEnum =
+  (typeof DigestScalarFieldEnum)[keyof typeof DigestScalarFieldEnum];
+
+export const WebhookDeliveryScalarFieldEnum = {
+  id: 'id',
+  digestId: 'digestId',
+  teamId: 'teamId',
+  platform: 'platform',
+  payload: 'payload',
+  dedupeKey: 'dedupeKey',
+  status: 'status',
+  attempts: 'attempts',
+  lastError: 'lastError',
+  deliveredAt: 'deliveredAt',
+} as const;
+
+export type WebhookDeliveryScalarFieldEnum =
+  (typeof WebhookDeliveryScalarFieldEnum)[keyof typeof WebhookDeliveryScalarFieldEnum];
+
+export const DailyTeamStatScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  statDate: 'statDate',
+  memberCount: 'memberCount',
+  submittedCount: 'submittedCount',
+  missingCount: 'missingCount',
+  lateCount: 'lateCount',
+  participation: 'participation',
+  createdAt: 'createdAt',
+} as const;
+
+export type DailyTeamStatScalarFieldEnum =
+  (typeof DailyTeamStatScalarFieldEnum)[keyof typeof DailyTeamStatScalarFieldEnum];
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc',
 } as const;
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull,
+} as const;
+
+export type JsonNullValueInput =
+  (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+} as const;
+
+export type NullableJsonNullValueInput =
+  (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 
 export const QueryMode = {
   default: 'default',
@@ -1426,6 +1721,15 @@ export const NullsOrder = {
 } as const;
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull,
+} as const;
+
+export type JsonNullValueFilter =
+  (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
 
 /**
  * Field references
@@ -1547,6 +1851,68 @@ export type EnumInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
   'InviteStatus[]'
+>;
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'Json'
+>;
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'QueryMode'
+>;
+
+/**
+ * Reference to a field of type 'DigestStatus'
+ */
+export type EnumDigestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'DigestStatus'
+>;
+
+/**
+ * Reference to a field of type 'DigestStatus[]'
+ */
+export type ListEnumDigestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'DigestStatus[]'
+>;
+
+/**
+ * Reference to a field of type 'DeliveryStatus'
+ */
+export type EnumDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'DeliveryStatus'
+>;
+
+/**
+ * Reference to a field of type 'DeliveryStatus[]'
+ */
+export type ListEnumDeliveryStatusFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'DeliveryStatus[]'>;
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'Float'
+>;
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'Float[]'
 >;
 
 /**
@@ -1716,6 +2082,9 @@ export type GlobalOmitConfig = {
   teamConfig?: Prisma.TeamConfigOmit;
   invitation?: Prisma.InvitationOmit;
   standup?: Prisma.StandupOmit;
+  digest?: Prisma.DigestOmit;
+  webhookDelivery?: Prisma.WebhookDeliveryOmit;
+  dailyTeamStat?: Prisma.DailyTeamStatOmit;
 };
 
 /* Types for Logging */

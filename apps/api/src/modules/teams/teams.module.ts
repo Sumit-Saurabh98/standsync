@@ -4,6 +4,7 @@ import { TeamsController } from './teams.controller';
 import { TeamsService } from './teams.service';
 import { TeamMembershipGuard } from './guards/team-membership.guard';
 import { QUEUES } from '../../queues/queue.constants';
+import { SchedulerModule } from '../scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { QUEUES } from '../../queues/queue.constants';
         removeOnFail: 100,
       },
     }),
+    SchedulerModule,
   ],
   controllers: [TeamsController],
   providers: [TeamsService, TeamMembershipGuard],
