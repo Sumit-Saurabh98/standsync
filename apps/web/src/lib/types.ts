@@ -140,6 +140,60 @@ export interface StandupListResponse {
   };
 }
 
+export interface TeamAnalytics {
+  today: {
+    submitted: number;
+    pending: number;
+    late: number;
+  };
+  week: { participationRate: number };
+  month: { participationRate: number };
+  totalSubmissions: number;
+}
+
+export interface WeeklyReportMember {
+  userId: string;
+  name: string;
+  email: string;
+  submitted: number;
+  missed: number;
+  lateCount: number;
+  participationRate: number;
+}
+
+export interface WeeklyReport {
+  period: { from: string; to: string };
+  summary: {
+    participationRate: number;
+    totalSubmissions: number;
+    totalPossible: number;
+    workingDays: number;
+    memberCount: number;
+  };
+  members: WeeklyReportMember[];
+  frequentBlockers: Array<{ text: string; count: number }>;
+}
+
+export type ExportFormat = "CSV";
+export type ExportStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+
+export interface ExportJob {
+  jobId: string;
+  status: ExportStatus;
+  format: ExportFormat;
+  fileName: string | null;
+  downloadUrl: string | null;
+  lastError: string | null;
+  createdAt: string;
+  completedAt: string | null;
+}
+
+export interface CreateExportResult {
+  jobId: string;
+  status: ExportStatus;
+  format: ExportFormat;
+}
+
 export interface SubmitStandupInput {
   yesterday: string;
   today: string;

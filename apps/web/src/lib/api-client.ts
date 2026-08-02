@@ -6,12 +6,16 @@ import {
   Standup,
   StandupListResponse,
   SubmitStandupInput,
+  TeamAnalytics,
   TeamConfig,
   TeamDetail,
   TeamListItem,
   TeamMember,
   TeamRole,
   TodayBoard,
+  WeeklyReport,
+  CreateExportResult,
+  ExportJob,
   UpdateStandupInput,
   UpdateTeamConfigInput,
   User,
@@ -181,6 +185,90 @@ export const api = {
 
   getTodayBoard: (teamId: string) =>
     request<TodayBoard>(`/teams/${teamId}/standups/today`),
+
+  getTeamAnalytics: async (teamId: string) => {
+    const res = await request<{ data: TeamAnalytics }>(
+      `/teams/${teamId}/analytics`,
+    );
+    return res.data;
+  },
+
+  getWeeklyReport: async (teamId: string) => {
+    const res = await request<{ data: WeeklyReport }>(
+      `/teams/${teamId}/reports/weekly`,
+    );
+    return res.data;
+  },
+
+  createExport: async (teamId: string, format: "CSV" = "CSV") => {
+    const res = await request<{ data: CreateExportResult }>(
+      `/teams/${teamId}/reports/export`,
+      { method: "POST", body: { format } },
+    );
+    return res.data;
+  },
+
+  getExportJob: async (teamId: string, jobId: string) => {
+    const res = await request<{ data: ExportJob }>(
+      `/teams/${teamId}/reports/export/${jobId}`,
+    );
+    return res.data;
+  },
+
+  downloadExport: async (teamId: string, jobId: string, fileName: string) => {
+    const path = `/teams/${teamId}/reports/export/${jobId}/download`;
+    let retried = false;
+
+    const fetchFile = () =>
+      fetch(`${API_URL}${path}`, {
+        credentials: "include",
+        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+      });
+
+    let res = await fetchFile();
+    if (res.status === 401 && !retried) {
+      const refreshed = await refresh();
+      if (refreshed) {
+        retried = true;
+        res = await fetchFile();
+      }
+    }
+
+    if (!res.ok) {
+      const data = (await res.json().catch(() => null)) as {
+        message?: string;
+        code?: string;
+      } | null;
+      throw new ApiError(
+        res.status,
+        data?.code ?? "UNKNOWN",
+        data?.message ?? "Failed to download export.",
+      );
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = fileName;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  },
+
+  searchStandups: (
+    teamId: string,
+    params: {
+      q?: string;
+      userId?: string;
+      date?: string;
+      blocker?: string;
+      limit?: number;
+      cursor?: string;
+    } = {},
+  ) =>
+    request<StandupListResponse>(
+      `/teams/${teamId}/search${toQuery(params)}`,
+    ),
 
   listStandups: (
     teamId: string,

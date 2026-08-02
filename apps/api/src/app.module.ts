@@ -21,6 +21,8 @@ import { TeamsModule } from './modules/teams/teams.module';
 import { StandupsModule } from './modules/standups/standups.module';
 import { DigestModule } from './modules/digest/digest.module';
 import { SchedulerModule } from './modules/scheduler/scheduler.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
@@ -76,6 +78,8 @@ import { SchedulerModule } from './modules/scheduler/scheduler.module';
     StandupsModule,
     DigestModule,
     SchedulerModule,
+    AnalyticsModule,
+    ReportsModule,
     MailModule,
   ],
   controllers: [AppController],

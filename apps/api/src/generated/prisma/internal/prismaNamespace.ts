@@ -440,6 +440,7 @@ export const ModelName = {
   Digest: 'Digest',
   WebhookDelivery: 'WebhookDelivery',
   DailyTeamStat: 'DailyTeamStat',
+  ExportJob: 'ExportJob',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -474,7 +475,8 @@ export type TypeMap<
       | 'standup'
       | 'digest'
       | 'webhookDelivery'
-      | 'dailyTeamStat';
+      | 'dailyTeamStat'
+      | 'exportJob';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -1466,6 +1468,82 @@ export type TypeMap<
         };
       };
     };
+    ExportJob: {
+      payload: Prisma.$ExportJobPayload<ExtArgs>;
+      fields: Prisma.ExportJobFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.ExportJobFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.ExportJobFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>;
+        };
+        findFirst: {
+          args: Prisma.ExportJobFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.ExportJobFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>;
+        };
+        findMany: {
+          args: Prisma.ExportJobFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>[];
+        };
+        create: {
+          args: Prisma.ExportJobCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>;
+        };
+        createMany: {
+          args: Prisma.ExportJobCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.ExportJobCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>[];
+        };
+        delete: {
+          args: Prisma.ExportJobDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>;
+        };
+        update: {
+          args: Prisma.ExportJobUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>;
+        };
+        deleteMany: {
+          args: Prisma.ExportJobDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.ExportJobUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.ExportJobUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>[];
+        };
+        upsert: {
+          args: Prisma.ExportJobUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExportJobPayload>;
+        };
+        aggregate: {
+          args: Prisma.ExportJobAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExportJob>;
+        };
+        groupBy: {
+          args: Prisma.ExportJobGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ExportJobGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.ExportJobCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.ExportJobCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -1685,6 +1763,22 @@ export const DailyTeamStatScalarFieldEnum = {
 
 export type DailyTeamStatScalarFieldEnum =
   (typeof DailyTeamStatScalarFieldEnum)[keyof typeof DailyTeamStatScalarFieldEnum];
+
+export const ExportJobScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  userId: 'userId',
+  format: 'format',
+  status: 'status',
+  filePath: 'filePath',
+  fileName: 'fileName',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt',
+} as const;
+
+export type ExportJobScalarFieldEnum =
+  (typeof ExportJobScalarFieldEnum)[keyof typeof ExportJobScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',
@@ -1916,6 +2010,38 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
+ * Reference to a field of type 'ExportFormat'
+ */
+export type EnumExportFormatFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'ExportFormat'
+>;
+
+/**
+ * Reference to a field of type 'ExportFormat[]'
+ */
+export type ListEnumExportFormatFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'ExportFormat[]'
+>;
+
+/**
+ * Reference to a field of type 'ExportStatus'
+ */
+export type EnumExportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'ExportStatus'
+>;
+
+/**
+ * Reference to a field of type 'ExportStatus[]'
+ */
+export type ListEnumExportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'ExportStatus[]'
+>;
+
+/**
  * Batch Payload for updateMany & deleteMany & createMany
  */
 export type BatchPayload = {
@@ -2085,6 +2211,7 @@ export type GlobalOmitConfig = {
   digest?: Prisma.DigestOmit;
   webhookDelivery?: Prisma.WebhookDeliveryOmit;
   dailyTeamStat?: Prisma.DailyTeamStatOmit;
+  exportJob?: Prisma.ExportJobOmit;
 };
 
 /* Types for Logging */

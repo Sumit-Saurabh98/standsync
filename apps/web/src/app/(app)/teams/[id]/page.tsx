@@ -139,31 +139,48 @@ export default function TeamDetailPage() {
           </div>
         </div>
 
-        {isManager && (
-          <div className="flex flex-wrap gap-2">
-            <Link
-              href={`/teams/${teamId}/standups`}
-              className="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-hover"
-            >
-              Standup board
-            </Link>
-            <Link
-              href={`/teams/${teamId}/settings`}
-              className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
-            >
-              Team settings
-            </Link>
-          </div>
-        )}
-
-        {!isManager && (
+        <div className="flex flex-wrap gap-2">
           <Link
             href={`/teams/${teamId}/standups`}
             className="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-hover"
           >
             Standup board
           </Link>
-        )}
+          <Link
+            href={`/teams/${teamId}/analytics`}
+            className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
+          >
+            Analytics
+          </Link>
+          <Link
+            href={`/teams/${teamId}/reports/weekly`}
+            className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
+          >
+            Weekly report
+          </Link>
+          <Link
+            href={`/teams/${teamId}/search`}
+            className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
+          >
+            Search
+          </Link>
+          {isManager && (
+            <Link
+              href={`/teams/${teamId}/reports/export`}
+              className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
+            >
+              Export
+            </Link>
+          )}
+          {isManager && (
+            <Link
+              href={`/teams/${teamId}/settings`}
+              className="inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-semibold transition hover:bg-black/5"
+            >
+              Team settings
+            </Link>
+          )}
+        </div>
       </div>
 
       {isManager && (

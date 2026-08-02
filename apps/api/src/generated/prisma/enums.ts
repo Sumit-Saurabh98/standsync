@@ -58,3 +58,20 @@ export const DeliveryStatus = {
 
 export type DeliveryStatus =
   (typeof DeliveryStatus)[keyof typeof DeliveryStatus];
+
+export const ExportFormat = {
+  CSV: 'CSV',
+  XLSX: 'XLSX',
+  PDF: 'PDF',
+} as const;
+
+export type ExportFormat = (typeof ExportFormat)[keyof typeof ExportFormat];
+
+export const ExportStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+} as const;
+
+export type ExportStatus = (typeof ExportStatus)[keyof typeof ExportStatus];

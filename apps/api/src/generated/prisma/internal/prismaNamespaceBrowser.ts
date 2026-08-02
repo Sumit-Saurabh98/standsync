@@ -67,6 +67,7 @@ export const ModelName = {
   Digest: 'Digest',
   WebhookDelivery: 'WebhookDelivery',
   DailyTeamStat: 'DailyTeamStat',
+  ExportJob: 'ExportJob',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -265,6 +266,22 @@ export const DailyTeamStatScalarFieldEnum = {
 
 export type DailyTeamStatScalarFieldEnum =
   (typeof DailyTeamStatScalarFieldEnum)[keyof typeof DailyTeamStatScalarFieldEnum];
+
+export const ExportJobScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  userId: 'userId',
+  format: 'format',
+  status: 'status',
+  filePath: 'filePath',
+  fileName: 'fileName',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt',
+} as const;
+
+export type ExportJobScalarFieldEnum =
+  (typeof ExportJobScalarFieldEnum)[keyof typeof ExportJobScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

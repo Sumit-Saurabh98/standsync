@@ -223,6 +223,7 @@ export type UserWhereInput = {
   emailVerifications?: Prisma.EmailVerificationListRelationFilter;
   teamMemberships?: Prisma.TeamMemberListRelationFilter;
   standups?: Prisma.StandupListRelationFilter;
+  exportJobs?: Prisma.ExportJobListRelationFilter;
   ownedTeams?: Prisma.TeamListRelationFilter;
   invitations?: Prisma.InvitationListRelationFilter;
 };
@@ -243,6 +244,7 @@ export type UserOrderByWithRelationInput = {
   emailVerifications?: Prisma.EmailVerificationOrderByRelationAggregateInput;
   teamMemberships?: Prisma.TeamMemberOrderByRelationAggregateInput;
   standups?: Prisma.StandupOrderByRelationAggregateInput;
+  exportJobs?: Prisma.ExportJobOrderByRelationAggregateInput;
   ownedTeams?: Prisma.TeamOrderByRelationAggregateInput;
   invitations?: Prisma.InvitationOrderByRelationAggregateInput;
 };
@@ -267,6 +269,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     emailVerifications?: Prisma.EmailVerificationListRelationFilter;
     teamMemberships?: Prisma.TeamMemberListRelationFilter;
     standups?: Prisma.StandupListRelationFilter;
+    exportJobs?: Prisma.ExportJobListRelationFilter;
     ownedTeams?: Prisma.TeamListRelationFilter;
     invitations?: Prisma.InvitationListRelationFilter;
   },
@@ -325,6 +328,7 @@ export type UserCreateInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
@@ -345,6 +349,7 @@ export type UserUncheckedCreateInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
@@ -367,6 +372,7 @@ export type UserUpdateInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
@@ -389,6 +395,7 @@ export type UserUncheckedUpdateInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
@@ -686,6 +693,32 @@ export type UserUpdateOneRequiredWithoutStandupsNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutExportJobsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutExportJobsInput,
+    Prisma.UserUncheckedCreateWithoutExportJobsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExportJobsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutExportJobsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutExportJobsInput,
+    Prisma.UserUncheckedCreateWithoutExportJobsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExportJobsInput;
+  upsert?: Prisma.UserUpsertWithoutExportJobsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutExportJobsInput,
+      Prisma.UserUpdateWithoutExportJobsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutExportJobsInput
+  >;
+};
+
 export type UserCreateWithoutAuthAccountsInput = {
   id?: string;
   email: string;
@@ -701,6 +734,7 @@ export type UserCreateWithoutAuthAccountsInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
@@ -720,6 +754,7 @@ export type UserUncheckedCreateWithoutAuthAccountsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
@@ -769,6 +804,7 @@ export type UserUpdateWithoutAuthAccountsInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
@@ -790,6 +826,7 @@ export type UserUncheckedUpdateWithoutAuthAccountsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
@@ -809,6 +846,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
@@ -828,6 +866,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
@@ -877,6 +916,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
@@ -898,6 +938,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
@@ -917,6 +958,7 @@ export type UserCreateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
@@ -936,6 +978,7 @@ export type UserUncheckedCreateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
@@ -985,6 +1028,7 @@ export type UserUpdateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
@@ -1006,6 +1050,7 @@ export type UserUncheckedUpdateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
@@ -1025,6 +1070,7 @@ export type UserCreateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
@@ -1044,6 +1090,7 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
@@ -1093,6 +1140,7 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
@@ -1114,6 +1162,7 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
@@ -1134,6 +1183,7 @@ export type UserCreateWithoutOwnedTeamsInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
 
@@ -1153,6 +1203,7 @@ export type UserUncheckedCreateWithoutOwnedTeamsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
 
@@ -1202,6 +1253,7 @@ export type UserUpdateWithoutOwnedTeamsInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
 
@@ -1223,6 +1275,7 @@ export type UserUncheckedUpdateWithoutOwnedTeamsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
 
@@ -1241,6 +1294,7 @@ export type UserCreateWithoutTeamMembershipsInput = {
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
@@ -1260,6 +1314,7 @@ export type UserUncheckedCreateWithoutTeamMembershipsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
@@ -1309,6 +1364,7 @@ export type UserUpdateWithoutTeamMembershipsInput = {
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
@@ -1330,6 +1386,7 @@ export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
@@ -1350,6 +1407,7 @@ export type UserCreateWithoutInvitationsInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
 };
 
@@ -1369,6 +1427,7 @@ export type UserUncheckedCreateWithoutInvitationsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
   standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
 };
 
@@ -1418,6 +1477,7 @@ export type UserUpdateWithoutInvitationsInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
 };
 
@@ -1439,6 +1499,7 @@ export type UserUncheckedUpdateWithoutInvitationsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
   standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
 };
 
@@ -1457,6 +1518,7 @@ export type UserCreateWithoutStandupsInput = {
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
 };
@@ -1476,6 +1538,7 @@ export type UserUncheckedCreateWithoutStandupsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutUserInput;
   ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
 };
@@ -1525,6 +1588,7 @@ export type UserUpdateWithoutStandupsInput = {
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
 };
@@ -1546,6 +1610,119 @@ export type UserUncheckedUpdateWithoutStandupsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
+};
+
+export type UserCreateWithoutExportJobsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput;
+  standups?: Prisma.StandupCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInviterInput;
+};
+
+export type UserUncheckedCreateWithoutExportJobsInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  avatarUrl?: string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  deletedAt?: Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput;
+  standups?: Prisma.StandupUncheckedCreateNestedManyWithoutUserInput;
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput;
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInviterInput;
+};
+
+export type UserCreateOrConnectWithoutExportJobsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutExportJobsInput,
+    Prisma.UserUncheckedCreateWithoutExportJobsInput
+  >;
+};
+
+export type UserUpsertWithoutExportJobsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutExportJobsInput,
+    Prisma.UserUncheckedUpdateWithoutExportJobsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutExportJobsInput,
+    Prisma.UserUncheckedCreateWithoutExportJobsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutExportJobsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutExportJobsInput,
+    Prisma.UserUncheckedUpdateWithoutExportJobsInput
+  >;
+};
+
+export type UserUpdateWithoutExportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput;
+  standups?: Prisma.StandupUpdateManyWithoutUserNestedInput;
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput;
+  invitations?: Prisma.InvitationUpdateManyWithoutInviterNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutExportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  deletedAt?:
+    Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  authAccounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput;
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput;
+  standups?: Prisma.StandupUncheckedUpdateManyWithoutUserNestedInput;
   ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput;
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInviterNestedInput;
 };
@@ -1561,6 +1738,7 @@ export type UserCountOutputType = {
   emailVerifications: number;
   teamMemberships: number;
   standups: number;
+  exportJobs: number;
   ownedTeams: number;
   invitations: number;
 };
@@ -1575,6 +1753,7 @@ export type UserCountOutputTypeSelect<
   emailVerifications?: boolean | UserCountOutputTypeCountEmailVerificationsArgs;
   teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs;
   standups?: boolean | UserCountOutputTypeCountStandupsArgs;
+  exportJobs?: boolean | UserCountOutputTypeCountExportJobsArgs;
   ownedTeams?: boolean | UserCountOutputTypeCountOwnedTeamsArgs;
   invitations?: boolean | UserCountOutputTypeCountInvitationsArgs;
 };
@@ -1655,6 +1834,16 @@ export type UserCountOutputTypeCountStandupsArgs<
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountExportJobsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.ExportJobWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountOwnedTeamsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -1692,6 +1881,7 @@ export type UserSelect<
     emailVerifications?: boolean | Prisma.User$emailVerificationsArgs<ExtArgs>;
     teamMemberships?: boolean | Prisma.User$teamMembershipsArgs<ExtArgs>;
     standups?: boolean | Prisma.User$standupsArgs<ExtArgs>;
+    exportJobs?: boolean | Prisma.User$exportJobsArgs<ExtArgs>;
     ownedTeams?: boolean | Prisma.User$ownedTeamsArgs<ExtArgs>;
     invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
@@ -1772,6 +1962,7 @@ export type UserInclude<
   emailVerifications?: boolean | Prisma.User$emailVerificationsArgs<ExtArgs>;
   teamMemberships?: boolean | Prisma.User$teamMembershipsArgs<ExtArgs>;
   standups?: boolean | Prisma.User$standupsArgs<ExtArgs>;
+  exportJobs?: boolean | Prisma.User$exportJobsArgs<ExtArgs>;
   ownedTeams?: boolean | Prisma.User$ownedTeamsArgs<ExtArgs>;
   invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
@@ -1797,6 +1988,7 @@ export type $UserPayload<
     emailVerifications: Prisma.$EmailVerificationPayload<ExtArgs>[];
     teamMemberships: Prisma.$TeamMemberPayload<ExtArgs>[];
     standups: Prisma.$StandupPayload<ExtArgs>[];
+    exportJobs: Prisma.$ExportJobPayload<ExtArgs>[];
     ownedTeams: Prisma.$TeamPayload<ExtArgs>[];
     invitations: Prisma.$InvitationPayload<ExtArgs>[];
   };
@@ -2423,6 +2615,17 @@ export interface Prisma__UserClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$StandupPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  exportJobs<T extends Prisma.User$exportJobsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$exportJobsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$ExportJobPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -3116,6 +3319,36 @@ export type User$standupsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.StandupScalarFieldEnum | Prisma.StandupScalarFieldEnum[];
+};
+
+/**
+ * User.exportJobs
+ */
+export type User$exportJobsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the ExportJob
+   */
+  select?: Prisma.ExportJobSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the ExportJob
+   */
+  omit?: Prisma.ExportJobOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExportJobInclude<ExtArgs> | null;
+  where?: Prisma.ExportJobWhereInput;
+  orderBy?:
+    | Prisma.ExportJobOrderByWithRelationInput
+    | Prisma.ExportJobOrderByWithRelationInput[];
+  cursor?: Prisma.ExportJobWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    Prisma.ExportJobScalarFieldEnum | Prisma.ExportJobScalarFieldEnum[];
 };
 
 /**

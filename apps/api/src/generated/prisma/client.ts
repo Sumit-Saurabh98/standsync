@@ -109,3 +109,8 @@ export type WebhookDelivery = Prisma.WebhookDeliveryModel;
  *
  */
 export type DailyTeamStat = Prisma.DailyTeamStatModel;
+/**
+ * Model ExportJob
+ *
+ */
+export type ExportJob = Prisma.ExportJobModel;

@@ -4,4 +4,5 @@ export const QUEUES = {
   DIGEST: 'digest',
   WEBHOOKS: 'webhooks',
   REMINDERS: 'reminders',
+  REPORTS: 'reports',
 } as const;

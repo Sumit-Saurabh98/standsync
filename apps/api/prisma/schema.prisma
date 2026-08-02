@@ -42,6 +42,19 @@ enum DeliveryStatus {
   FAILED
 }
 
+enum ExportFormat {
+  CSV
+  XLSX
+  PDF
+}
+
+enum ExportStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
 model AuthAccount{
   id String @id @default(cuid())
   userId String
@@ -102,6 +115,7 @@ model User {
   emailVerifications EmailVerification[]
   teamMemberships TeamMember[]
   standups        Standup[]
+  exportJobs        ExportJob[]
   ownedTeams      Team[]       @relation("TeamOwner")
   invitations     Invitation[] @relation("InvitedBy")
 
@@ -137,6 +151,7 @@ model Team {
   digests             Digest[]
   webhookDeliveries   WebhookDelivery[]
   dailyTeamStats      DailyTeamStat[]
+  exportJobs          ExportJob[]
 
   @@index([ownerId])
   @@map("teams")
@@ -255,4 +270,21 @@ model DailyTeamStat {
   @@map("daily_team_stats")
 }
 
+model ExportJob {
+  id          String       @id @default(cuid())
+  teamId      String
+  team        Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  format      ExportFormat
+  status      ExportStatus @default(PENDING)
+  filePath    String?
+  fileName    String?
+  lastError   String?
+  createdAt   DateTime     @default(now())
+  completedAt DateTime?
+
+  @@index([teamId, status])
+  @@map("export_jobs")
+}
 

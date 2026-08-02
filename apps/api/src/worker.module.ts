@@ -14,6 +14,8 @@ import { WebhooksModule } from './modules/webhooks/webhooks.module';
 import { WebhooksProcessor } from './modules/webhooks/webhooks.processor';
 import { RemindersModule } from './modules/reminders/reminders.module';
 import { RemindersProcessor } from './modules/reminders/reminders.processor';
+import { ExportModule } from './modules/export/export.module';
+import { ExportProcessor } from './modules/export/export.processor';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { RemindersProcessor } from './modules/reminders/reminders.processor';
     BullModule.registerQueue({ name: QUEUES.WEBHOOKS }),
     RemindersModule,
     BullModule.registerQueue({ name: QUEUES.REMINDERS }),
+    ExportModule,
+    BullModule.registerQueue({ name: QUEUES.REPORTS }),
   ],
   providers: [
     DemoProcessor,
@@ -39,6 +43,7 @@ import { RemindersProcessor } from './modules/reminders/reminders.processor';
     DigestProcessor,
     WebhooksProcessor,
     RemindersProcessor,
+    ExportProcessor,
   ],
 })
 export class WorkerModule {}

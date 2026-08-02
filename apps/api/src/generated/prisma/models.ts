@@ -20,4 +20,5 @@ export type * from './models/Standup.js';
 export type * from './models/Digest.js';
 export type * from './models/WebhookDelivery.js';
 export type * from './models/DailyTeamStat.js';
+export type * from './models/ExportJob.js';
 export type * from './commonInputTypes.js';
