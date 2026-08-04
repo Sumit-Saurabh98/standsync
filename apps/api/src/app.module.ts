@@ -7,9 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { envValidationSchema } from './config/env.validation';
 import { LoggerModule } from 'nestjs-pino';
 import { randomUUID } from 'crypto';
-import { BullModule } from '@nestjs/bullmq';
 import { QueueRootModule } from './queues/queue-root.module';
-import { QUEUES } from './queues/queue.constants';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { ThrottlerModule, ThrottlerGuard, seconds } from '@nestjs/throttler';
@@ -70,7 +68,6 @@ import { ReportsModule } from './modules/reports/reports.module';
       },
     }),
     QueueRootModule,
-    BullModule.registerQueue({ name: QUEUES.DEMO }),
     PrismaModule,
     HealthModule,
     AuthModule,

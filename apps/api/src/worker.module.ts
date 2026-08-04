@@ -4,7 +4,6 @@ import { BullModule } from '@nestjs/bullmq';
 import { envValidationSchema } from './config/env.validation';
 import { QueueRootModule } from './queues/queue-root.module';
 import { QUEUES } from './queues/queue.constants';
-import { DemoProcessor } from './worker/demo.processor';
 import { MailModule } from './mail/mail.module';
 import { MailProcessor } from './mail/mail.processor';
 import { DigestModule } from './modules/digest/digest.module';
@@ -26,7 +25,6 @@ import { ExportProcessor } from './modules/export/export.processor';
     PrismaModule,
     QueueRootModule,
     MailModule,
-    BullModule.registerQueue({ name: QUEUES.DEMO }),
     BullModule.registerQueue({ name: QUEUES.MAIL }),
     DigestModule,
     BullModule.registerQueue({ name: QUEUES.DIGEST }),
@@ -38,7 +36,6 @@ import { ExportProcessor } from './modules/export/export.processor';
     BullModule.registerQueue({ name: QUEUES.REPORTS }),
   ],
   providers: [
-    DemoProcessor,
     MailProcessor,
     DigestProcessor,
     WebhooksProcessor,

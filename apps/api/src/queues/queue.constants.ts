@@ -1,5 +1,4 @@
 export const QUEUES = {
-  DEMO: 'demo',
   MAIL: 'mail',
   DIGEST: 'digest',
   WEBHOOKS: 'webhooks',

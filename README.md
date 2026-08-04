@@ -26,7 +26,7 @@ the whole loop. See [docs/overview.md](docs/overview.md) and
 - Automated daily digest compiled and sent to Slack / Discord / Teams / generic webhook
 - Reminder system for non-submitters (before and after deadline)
 - Standup history, search, and filtering
-- Weekly reports, analytics dashboard data, and CSV/Excel/PDF export
+- Weekly reports, analytics dashboard data, and CSV export
 - Reliable, idempotent background processing (no duplicate standups or digests)
 
 Full list: [docs/functional_requirement.md](docs/functional_requirement.md).
@@ -41,8 +41,7 @@ Full list: [docs/functional_requirement.md](docs/functional_requirement.md).
 | Queue     | Redis + BullMQ (jobs & scheduling)       |
 | Auth      | JWT (access + rotating refresh), bcrypt  |
 | Docs      | Swagger / OpenAPI                         |
-| Deploy    | Docker, Docker Compose, Nginx, AWS       |
-| CI/CD     | GitHub Actions                           |
+| Local     | Docker Compose (Postgres + Redis)        |
 
 Details: [docs/tech_stack.md](docs/tech_stack.md).
 
